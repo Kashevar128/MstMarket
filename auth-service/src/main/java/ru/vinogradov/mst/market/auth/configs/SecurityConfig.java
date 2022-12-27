@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    //Применение паттерна "Builder"
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
