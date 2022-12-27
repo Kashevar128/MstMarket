@@ -21,22 +21,5 @@ import java.util.concurrent.TimeUnit;
         ProductServiceIntegrationProperties.class
 )
 public class AppConfig {
-    private final ProductServiceIntegrationProperties productServiceIntegrationProperties;
 
-    @Bean
-    public WebClient productServiceWebClient() {
-        TcpClient tcpClient = TcpClient
-                .create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, productServiceIntegrationProperties.getConnectTimeout())
-                .doOnConnected(connection -> {
-                    connection.addHandlerLast(new ReadTimeoutHandler(productServiceIntegrationProperties.getReadTimeout(), TimeUnit.MILLISECONDS));
-                    connection.addHandlerLast(new WriteTimeoutHandler(productServiceIntegrationProperties.getWriteTimeout(), TimeUnit.MILLISECONDS));
-                });
-
-        return WebClient
-                .builder()
-                .baseUrl(productServiceIntegrationProperties.getUrl())
-                .clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
-                .build();
-    }
 }
