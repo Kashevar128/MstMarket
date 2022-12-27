@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.vinogradov.mst.market.api.CartDto;
 import ru.vinogradov.mst.market.api.StringResponse;
-import ru.vinogradov.mst.market.cart.converters.CartConverter;
+import ru.vinogradov.mst.market.cart.mappers.CartMapper;
 import ru.vinogradov.mst.market.cart.services.CartService;
 
 import java.util.UUID;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CartController {
     private final CartService cartService;
-    private final CartConverter cartConverter;
+    private final CartMapper cartMapper;
 
     @GetMapping("/generate_id")
     public StringResponse generateGuestCartId() {
@@ -24,7 +24,7 @@ public class CartController {
     @GetMapping("/{guestCartId}")
     public CartDto getCurrentCart(@RequestHeader(required = false) String username, @PathVariable String guestCartId) {
         String currentCartId = selectCartId(username, guestCartId);
-        return cartConverter.entityToDto(cartService.getCurrentCart(currentCartId));
+        return cartMapper.mapCartToCartDto(cartService.getCurrentCart(currentCartId));
     }
 
     @GetMapping("/{guestCartId}/add/{productId}")

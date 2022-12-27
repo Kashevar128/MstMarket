@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.vinogradov.mst.market.api.OrderDto;
-import ru.vinogradov.mst.market.core.converters.OrderConverter;
+import ru.vinogradov.mst.market.core.mappers.OrderMapper;
 import ru.vinogradov.mst.market.core.services.OrderService;
 
 import java.util.List;
@@ -15,11 +15,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
-    private final OrderConverter orderConverter;
+    private final OrderMapper orderMapper;
 
     @GetMapping
     public List<OrderDto> getUserOrders(@RequestHeader String username) {
-        return orderService.findUserOrders(username).stream().map(orderConverter::entityToDto).collect(Collectors.toList());
+        return orderService.findUserOrders(username)
+                .stream()
+                .map(orderMapper::mapOrderToOrderDto)
+                .collect(Collectors.toList());
     }
 
     @PostMapping
