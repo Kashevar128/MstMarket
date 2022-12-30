@@ -68,6 +68,7 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
                     $location.path('/');
                 }
             }, function errorCallback(response) {
+                    alert('Не верный логин или пароль')
             });
     };
 

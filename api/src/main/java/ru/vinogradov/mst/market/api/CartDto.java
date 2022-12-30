@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Data
 public class CartDto {
     private List<CartItemDto> items;
     private BigDecimal totalPrice;

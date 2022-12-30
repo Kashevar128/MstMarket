@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 @Builder
 @Schema(description = "Модель продукта")
 public class ProductDto {

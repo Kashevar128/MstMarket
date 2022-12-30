@@ -25,6 +25,11 @@ public class OrderController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/clear")
+    public void clearUserOrders(@RequestHeader String username) {
+
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createNewOrder(@RequestHeader String username) {
