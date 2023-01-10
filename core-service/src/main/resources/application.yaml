@@ -3,6 +3,16 @@ server:
   servlet:
     context-path: /market-core
 spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5450/postgres
+    username: postgres
+    password: postgres
+
+    jpa:
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
 #  datasource:
 #    driver-class-name: org.h2.Driver
 #    url: jdbc:h2:mem:market-core;MODE=PostgreSQL
@@ -18,16 +28,6 @@ spring:
 #      enabled: true
 #      settings:
 #        web-allow-others: false
-  datasource:
-    driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: sa
-    password:
-
-    jpa:
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.PostgreSQLDialect
 integrations:
   cart-service:
     url: http://localhost:8190/market-cart/
