@@ -1,20 +1,13 @@
 package ru.vinogradov.mst.market.api;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class JwtResponse {
     private String token;
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public JwtResponse() {
-    }
-
-    public JwtResponse(String token) {
-        this.token = token;
-    }
 }

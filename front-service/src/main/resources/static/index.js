@@ -22,6 +22,10 @@
                 templateUrl: 'orders/orders.html',
                 controller: 'ordersController'
             })
+            .when('/registration', {
+                templateUrl: 'registration/registration.html',
+                controller: 'registrationController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -68,6 +72,9 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
                     $location.path('/');
                 }
             }, function errorCallback(response) {
+                let me = response;
+                console.log(me)
+                alert(me.data.message)
             });
     };
 

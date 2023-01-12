@@ -12,10 +12,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.vinogradov.mst.market.api.ProductDto;
-import ru.vinogradov.mst.market.core.converters.ProductConverter;
 import ru.vinogradov.mst.market.core.entities.Product;
 import ru.vinogradov.mst.market.core.exceptions.AppError;
 import ru.vinogradov.mst.market.core.exceptions.ResourceNotFoundException;
+import ru.vinogradov.mst.market.core.mappers.ProductMapper;
 import ru.vinogradov.mst.market.core.repositories.specifications.ProductsSpecifications;
 import ru.vinogradov.mst.market.core.services.ProductService;
 
@@ -27,7 +27,7 @@ import java.math.BigDecimal;
 @Tag(name = "Продукты", description = "Методы работы с продуктами")
 public class ProductController {
     private final ProductService productService;
-    private final ProductConverter productConverter;
+    private final ProductMapper productMapper;
 
     @GetMapping
     public Page<ProductDto> getAllProducts(
@@ -50,7 +50,7 @@ public class ProductController {
         if (maxPrice != null) {
             spec = spec.and(ProductsSpecifications.priceLessThanOrEqualsThan(BigDecimal.valueOf(maxPrice)));
         }
-        return productService.findAll(page - 1, pageSize, spec).map(productConverter::entityToDto);
+        return productService.findAll(page - 1, pageSize, spec).map(productMapper::mapProductToProductDto);
     }
 
     @Operation(
@@ -68,7 +68,7 @@ public class ProductController {
     )
     @GetMapping("/{id}")
     public ProductDto getProductById(@PathVariable @Parameter(description = "Идентификатор продукта", required = true) Long id) {
-        return productConverter.entityToDto(productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Продукт с id: " + id + " не найден")));
+        return productMapper.mapProductToProductDto(productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Продукт с id: " + id + " не найден")));
     }
 
     @Operation(

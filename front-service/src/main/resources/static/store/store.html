@@ -4,21 +4,21 @@
     <p></p>
     <form novalidate ng-submit="loadProducts()">
         <div class="form-floating input-group-sm">
-            <input type="text" class="form-control" id="filterTitle" placeholder="" ng-model="filter.title_part">
+            <input style="width: 40%;" type="text" class="form-control" id="filterTitle" placeholder="" ng-model="filter.title_part">
             <label for="filterTitle">Название продукта</label>
         </div>
         <p></p>
         <div class="form-floating input-group-sm">
-            <input type="number" class="form-control" id="filterMinPrice" placeholder="" ng-model="filter.min_price">
+            <input style="width: 40%;" type="number" class="form-control" id="filterMinPrice" placeholder="" ng-model="filter.min_price">
             <label for="filterMinPrice">Мин. цена</label>
         </div>
         <p></p>
         <div class="form-floating input-group-sm">
-            <input type="number" class="form-control" id="filterMaxPrice" placeholder="" ng-model="filter.max_price">
+            <input style="width: 40%;" type="number" class="form-control" id="filterMaxPrice" placeholder="" ng-model="filter.max_price">
             <label for="filterMaxPrice">Макс. цена</label>
         </div>
         <p></p>
-        <button class="btn btn-outline-warning btn-sm" style="width: 100%;" type="submit">Применить</button>
+        <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Применить</button>
     </form>
     <p></p>
     <table class="table table-hover">
@@ -36,7 +36,8 @@
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
             <td>
-                <button class="btn btn-primary" ng-click="addToCart(p.id)">Добавить в корзину</button>
+                <button class="btn btn-primary" ng-click="addToCart(p.id)" ng-show="suchAProductAlreadyExists(p.id)">Добавить в корзину</button>
+                <button class="btn btn-secondary" ng-click="addToCart(p.id)" ng-show="!suchAProductAlreadyExists(p.id)">Добавить в корзину</button>
             </td>
         </tr>
         </tbody>

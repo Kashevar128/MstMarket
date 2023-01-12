@@ -35,6 +35,16 @@ public class Cart {
         }
     }
 
+    public void reduceQuantity(Long productId) {
+        for (CartItem item : items) {
+            if (item.getProductId().equals(productId)) {
+                item.decrementQuantity();
+                recalculate();
+                return;
+            }
+        }
+    }
+
     public void clear() {
         items.clear();
         totalPrice = BigDecimal.ZERO;

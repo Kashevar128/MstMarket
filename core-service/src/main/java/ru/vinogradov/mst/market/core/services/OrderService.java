@@ -46,4 +46,8 @@ public class OrderService {
     public List<Order> findUserOrders(String username) {
         return orderRepository.findAllByUsername(username);
     }
+
+    public void deleteOrders(String username) {
+        orderRepository.deleteAll(orderRepository.findAllByUsername(username));
+    }
 }

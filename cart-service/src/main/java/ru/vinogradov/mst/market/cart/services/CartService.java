@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.vinogradov.mst.market.api.ProductDto;
 import ru.vinogradov.mst.market.cart.integrations.ProductServiceIntegration;
 import ru.vinogradov.mst.market.cart.utils.Cart;
+import ru.vinogradov.mst.market.cart.utils.CartItem;
 
 import java.util.function.Consumer;
 
@@ -15,32 +16,51 @@ public class CartService {
     private final ProductServiceIntegration productServiceIntegration;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public Cart getCurrentCart(String cartId) {
-        if (!redisTemplate.hasKey(cartId)) {
+    public Cart getUserCart(String idCart) {
+        if (!redisTemplate.hasKey(idCart)) {
             Cart cart = new Cart();
-            redisTemplate.opsForValue().set(cartId, cart);
+            redisTemplate.opsForValue().set(idCart, cart);
         }
-        return (Cart)redisTemplate.opsForValue().get(cartId);
+        return (Cart)redisTemplate.opsForValue().get(idCart);
     }
 
-    public void addToCart(String cartId, Long productId) {
-        execute(cartId, cart -> {
+    public void addToCart(String idCart, Long productId) {
+        execute(idCart, cart -> {
             ProductDto p = productServiceIntegration.findById(productId);
             cart.add(p);
         });
     }
 
-    public void removeFromCart(String cartId, Long productId) {
-        execute(cartId, cart -> cart.remove(productId));
+    public void decrementQuantity(String idCart, Long productId) {
+        execute(idCart, cart -> { cart.reduceQuantity(productId);});
     }
 
-    public void clearCart(String cartId) {
-        execute(cartId, Cart::clear);
+    public void removeFromCart(String idCart, Long productId) {
+        execute(idCart, cart -> cart.remove(productId));
     }
 
-    private void execute(String cartId, Consumer<Cart> action) {
-        Cart cart = getCurrentCart(cartId);
+    public void clearCart(String idCart) {
+        execute(idCart, Cart::clear);
+    }
+
+    public void copyCart(String userId, String guestId) {
+        Cart guestCart = getUserCart(guestId);
+        if (!guestCart.getItems().isEmpty()) {
+            Consumer<Cart> cartConsumer = cart -> {
+                for (CartItem cartItem : guestCart.getItems()) {
+                    cart.getItems().add(cartItem);
+                }
+                cart.getTotalPrice().add(guestCart.getTotalPrice());
+            };
+            execute(userId, cartConsumer);
+            clearCart(guestId);
+        }
+    }
+
+    private void execute(String idCart, Consumer<Cart> action) {
+        Cart cart = getUserCart(idCart);
         action.accept(cart);
-        redisTemplate.opsForValue().set(cartId, cart);
+        redisTemplate.opsForValue().set(idCart, cart);
     }
+
 }
