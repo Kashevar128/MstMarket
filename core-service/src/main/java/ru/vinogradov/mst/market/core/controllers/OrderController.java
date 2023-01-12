@@ -27,7 +27,7 @@ public class OrderController {
 
     @GetMapping("/clear")
     public void clearUserOrders(@RequestHeader String username) {
-
+        orderService.deleteOrders(username);
     }
 
     @PostMapping
