@@ -31,6 +31,10 @@ public class CartService {
         });
     }
 
+    public void decrementQuantity(String idCart, Long productId) {
+        execute(idCart, cart -> { cart.reduceQuantity(productId);});
+    }
+
     public void removeFromCart(String idCart, Long productId) {
         execute(idCart, cart -> cart.remove(productId));
     }

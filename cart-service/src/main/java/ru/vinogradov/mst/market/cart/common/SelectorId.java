@@ -9,7 +9,14 @@ public class SelectorId {
 
     public String selectCart(String userId, String guestId, Runnable runnableCart) {
         if (userId != null) {
-            if (runnableCart != null) runnableCart.run();
+            runnableCart.run();
+            return userId;
+        }
+        return guestId;
+    }
+
+    public String selectCart(String userId, String guestId) {
+        if (userId != null) {
             return userId;
         }
         return guestId;

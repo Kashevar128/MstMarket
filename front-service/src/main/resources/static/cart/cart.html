@@ -14,8 +14,15 @@
             <tbody>
             <tr ng-repeat="ci in cart.items">
                 <td>{{ci.productTitle}}</td>
-                <td>{{ci.quantity}}</td>
+                <td>
+                    <button style="width: 15%;" type="button" class="btn btn-outline-info btn-sm" ng-click="decrementQuantity(ci.productId)">-</button>
+                    {{ci.quantity}}
+                    <button style="width: 15%;" type="button" class="btn btn-outline-success btn-sm" ng-click="addToCart(ci.productId)">+</button>
+                </td>
                 <td>{{ci.pricePerProduct + ' x ' + ci.quantity + ' = ' + ci.price}}</td>
+                <td>
+                    <button class="btn btn-outline-warning btn-sm" ng-click="deleteItemCart(ci.productId)">Удалить из корзины</button>
+                </td>
             </tr>
             <tr>
                 <td></td>

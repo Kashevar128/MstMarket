@@ -1,4 +1,5 @@
-angular.module('market').controller('storeController', function ($scope, $http, $localStorage) {
+
+angular.module('market').controller('storeController', function ($scope, $http, $localStorage, $rootScope) {
     $scope.loadProducts = function (page = 1) {
         $http({
             url: 'http://localhost:5555/core/api/v1/products',
@@ -18,7 +19,19 @@ angular.module('market').controller('storeController', function ($scope, $http, 
     $scope.addToCart = function (id) {
         $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.mstMarketGuestCartId + '/add/' + id)
             .then(function (response) {
+                $rootScope.currentCartUser = response.data;
             });
+    }
+
+    $scope.suchAProductAlreadyExists = function (id) {
+        if ($rootScope.currentCartUser) {
+            for (let i = 0; i < $rootScope.currentCartUser.items.length; i++) {
+                let product = $rootScope.currentCartUser.items[i];
+                console.log(product);
+                if (product.productId === id) return false;
+            }
+        }
+        return true;
     }
 
     $scope.generatePagesList = function (totalPages) {
@@ -29,5 +42,14 @@ angular.module('market').controller('storeController', function ($scope, $http, 
         $scope.pagesList = out;
     }
 
+    $scope.loadCart = function () {
+        $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.mstMarketGuestCartId)
+            .then(function (response) {
+                $scope.cart = response.data;
+                $rootScope.currentCartUser = response.data;
+            });
+    };
+
+    $scope.loadCart();
     $scope.loadProducts();
 });

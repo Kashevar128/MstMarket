@@ -31,16 +31,31 @@ public class CartController {
     }
 
     @GetMapping("/{guestCartId}/add/{productId}")
-    public void addProductToCart(@RequestHeader(required = false) String username, @PathVariable String guestCartId,
+    public CartDto addProductToCart(@RequestHeader(required = false) String username, @PathVariable String guestCartId,
                                  @PathVariable Long productId) {
-        String idCart = selectorId.selectCart(username, guestCartId, null);
+        String idCart = selectorId.selectCart(username, guestCartId);
         cartService.addToCart(idCart, productId);
+        return cartMapper.mapCartToCartDto(cartService.getUserCart(idCart));
     }
 
     @GetMapping("/{guestCartId}/clear")
     public void clearCurrentCart(@RequestHeader(required = false) String username, @PathVariable String guestCartId) {
-        String idCart = selectorId.selectCart(username, guestCartId, null);
+        String idCart = selectorId.selectCart(username, guestCartId);
         cartService.clearCart(idCart);
+    }
+
+    @GetMapping("/{guestCartId}/delete/{productId}")
+    public void deleteProductToCart(@RequestHeader(required = false) String username, @PathVariable String guestCartId,
+                                    @PathVariable Long productId) {
+        String idCart = selectorId.selectCart(username, guestCartId);
+        cartService.removeFromCart(idCart, productId);
+    }
+
+    @GetMapping("/{guestCartId}/decrement/{productId}")
+    public void decrementQuantityProduct(@RequestHeader(required = false) String username, @PathVariable String guestCartId,
+                                    @PathVariable Long productId) {
+        String idCart = selectorId.selectCart(username, guestCartId);
+        cartService.decrementQuantity(idCart, productId);
     }
 }
 
