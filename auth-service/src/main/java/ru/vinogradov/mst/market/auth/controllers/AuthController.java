@@ -18,13 +18,20 @@ public class AuthController {
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
         userService.auth(authRequest);
         UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
-        return ResponseEntity.ok(new JwtResponse(userService.getToken(userDetails)));
+        JwtResponse jwtResponse = JwtResponse.builder()
+                .token(userService.getToken(userDetails))
+                .visibleAdminButton(userService.getAccessAdmin(authRequest.getUsername()))
+                .build();
+        return ResponseEntity.ok(jwtResponse);
     }
 
     @PostMapping("/registration")
     public ResponseEntity<?> createAuthToken(@RequestBody RegistrationUserDto registrationUserDto) {
         userService.reg(registrationUserDto);
         UserDetails userDetails = userService.loadUserByUsername(registrationUserDto.getUsername());
-        return ResponseEntity.ok(new JwtResponse(userService.getToken(userDetails)));
+        JwtResponse jwtResponse = JwtResponse.builder()
+                .token(userService.getToken(userDetails))
+                .build();
+        return ResponseEntity.ok(jwtResponse);
     }
 }

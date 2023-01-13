@@ -63,6 +63,8 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
         $http.post('http://localhost:5555/auth/authenticate', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
+                    console.log(response.data);
+                    $localStorage.visibleAdmin = response.data.visibleAdminButton;
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                     $localStorage.mstMarketUser = {username: $scope.user.username, token: response.data.token};
 
@@ -87,6 +89,10 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
         delete $localStorage.mstMarketUser;
         $http.defaults.headers.common.Authorization = '';
     };
+
+    $scope.isVisibleAdmin = function () {
+        return $localStorage.visibleAdmin;
+    }
 
     $rootScope.isUserLoggedIn = function () {
         if ($localStorage.mstMarketUser) {

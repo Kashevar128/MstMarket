@@ -5,9 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Data
 public class JwtResponse {
     private String token;
+    private boolean visibleAdminButton;
 }

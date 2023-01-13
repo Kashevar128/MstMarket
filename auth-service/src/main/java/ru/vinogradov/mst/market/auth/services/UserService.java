@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vinogradov.mst.market.api.JwtRequest;
+import ru.vinogradov.mst.market.api.JwtResponse;
 import ru.vinogradov.mst.market.api.RegistrationUserDto;
 import ru.vinogradov.mst.market.auth.entities.Role;
 import ru.vinogradov.mst.market.auth.entities.User;
@@ -81,5 +82,17 @@ public class UserService implements UserDetailsService {
 
     public String getToken(UserDetails userDetails) {
         return jwtTokenUtil.generateToken(userDetails);
+    }
+
+    public Collection<Role> getRolesUser(String username) {
+        return userRepository.findByUsername(username).get().getRoles();
+    }
+
+    public boolean getAccessAdmin(String username) {
+        Collection<Role> rolesUser = userRepository.findByUsername(username).get().getRoles();
+        for (Role role : rolesUser) {
+            if (role.getName().equals("ROLE_ADMIN")) return true;
+        }
+        return false;
     }
 }
