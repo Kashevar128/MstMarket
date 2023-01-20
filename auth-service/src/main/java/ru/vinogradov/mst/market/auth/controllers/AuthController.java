@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import ru.vinogradov.mst.market.api.JwtRequest;
-import ru.vinogradov.mst.market.api.JwtResponse;
-import ru.vinogradov.mst.market.api.RegistrationUserDto;
+import ru.vinogradov.mst.market.api.*;
 import ru.vinogradov.mst.market.auth.services.UserService;
 
 @RestController
@@ -34,4 +32,31 @@ public class AuthController {
                 .build();
         return ResponseEntity.ok(jwtResponse);
     }
+
+//    @GetMapping
+//    public Page<ProductDto> getAllUsers(
+//            @RequestParam(name = "p", defaultValue = "1") Integer page,
+//            @RequestParam(name = "page_size", defaultValue = "10") Integer pageSize,
+//            @RequestParam(name = "title_part", required = false) String titlePart
+//    ) {
+//        if (page < 1) {
+//            page = 1;
+//        }
+//        Specification<Product> spec = Specification.where(null);
+//        if (titlePart != null) {
+//            spec = spec.and(ProductsSpecifications.titleLike(titlePart));
+//        }
+//        if (minPrice != null) {
+//            spec = spec.and(ProductsSpecifications.priceGreaterOrEqualsThan(BigDecimal.valueOf(minPrice)));
+//        }
+//        if (maxPrice != null) {
+//            spec = spec.and(ProductsSpecifications.priceLessThanOrEqualsThan(BigDecimal.valueOf(maxPrice)));
+//        }
+//        return productService.findAll(page - 1, pageSize, spec).map(productMapper::mapProductToProductDto);
+//    }
+//
+//    @GetMapping
+//    public Page<UserDto> getAllUsers() {
+//
+//    }
 }

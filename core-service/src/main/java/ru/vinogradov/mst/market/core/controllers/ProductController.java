@@ -20,6 +20,8 @@ import ru.vinogradov.mst.market.core.repositories.specifications.ProductsSpecifi
 import ru.vinogradov.mst.market.core.services.ProductService;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -88,5 +90,17 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void deleteProductById(@PathVariable Long id) {
         productService.deleteById(id);
+    }
+
+    @GetMapping("/listProducts")
+    @ResponseBody
+    public MyProductDtoList getProducts() {
+        ProductMyDto productMyDto = new ProductMyDto(1L, "Сахар");
+        ProductMyDto productMyDto2 = new ProductMyDto(2L, "Соль");
+        List<ProductMyDto> productMyDtoList = new ArrayList<>();
+        productMyDtoList.add(productMyDto);
+        productMyDtoList.add(productMyDto2);
+        MyProductDtoList myProductDtoList = new MyProductDtoList(productMyDtoList);
+        return myProductDtoList;
     }
 }

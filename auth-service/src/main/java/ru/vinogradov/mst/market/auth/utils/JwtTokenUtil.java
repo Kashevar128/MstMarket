@@ -27,7 +27,7 @@ public class JwtTokenUtil {
         List<String> rolesList = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
-        claims.put("roles", rolesList);
+        claims.put("role", rolesList);
 
         Date issuedDate = new Date();
         Date expiredDate = new Date(issuedDate.getTime() + jwtLifetime);
@@ -52,6 +52,6 @@ public class JwtTokenUtil {
     }
 
     public List<String> getRoles(String token) {
-        return getAllClaimsFromToken(token).get("roles", List.class);
+        return getAllClaimsFromToken(token).get("role", List.class);
     }
 }

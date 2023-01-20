@@ -26,6 +26,10 @@
                 templateUrl: 'registration/registration.html',
                 controller: 'registrationController'
             })
+            .when('/admin', {
+                templateUrl: 'admin/admin.html',
+                controller: 'adminController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -37,6 +41,7 @@
                 let jwt = $localStorage.mstMarketUser.token;
                 let payload = JSON.parse(atob(jwt.split('.')[1]));
                 let currentTime = parseInt(new Date().getTime() / 1000);
+                $localStorage.visibleAdmin = true;
                 if (currentTime > payload.exp) {
                     console.log("Token is expired!!!");
                     delete $localStorage.marchMarketUser;
@@ -82,6 +87,7 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
 
     $scope.tryToLogout = function () {
         $scope.clearUser();
+        $localStorage.visibleAdmin = false;
         $location.path('/');
     };
 
