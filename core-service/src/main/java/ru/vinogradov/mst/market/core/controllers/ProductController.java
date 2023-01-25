@@ -34,10 +34,10 @@ public class ProductController {
     @GetMapping
     public Page<ProductDto> getAllProducts(
             @RequestParam(name = "p", defaultValue = "1") @Parameter(description = "Номер страницы", required = true) Integer page,
-            @RequestParam(name = "page_size", defaultValue = "10") @Parameter(description = "Номер страницы", required = false)  Integer pageSize,
-            @RequestParam(name = "title_part", required = false) @Parameter(description = "Фильтр части названия продукта", required = false)  String titlePart,
-            @RequestParam(name = "min_price", required = false) @Parameter(description = "Фильтр по мин цене продукта", required = false)  Integer minPrice,
-            @RequestParam(name = "max_price", required = false) @Parameter(description = "Фильтр по макс цене продукта", required = false)  Integer maxPrice
+            @RequestParam(name = "page_size", defaultValue = "10") @Parameter(description = "Номер страницы", required = false) Integer pageSize,
+            @RequestParam(name = "title_part", required = false) @Parameter(description = "Фильтр части названия продукта", required = false) String titlePart,
+            @RequestParam(name = "min_price", required = false) @Parameter(description = "Фильтр по мин цене продукта", required = false) Integer minPrice,
+            @RequestParam(name = "max_price", required = false) @Parameter(description = "Фильтр по макс цене продукта", required = false) Integer maxPrice
     ) {
         if (page < 1) {
             page = 1;

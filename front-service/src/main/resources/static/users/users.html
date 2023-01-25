@@ -16,6 +16,7 @@
         <tr>
             <td>ID</td>
             <td>Имя пользователя</td>
+            <td>Права пользователя</td>
             <td></td>
         </tr>
         </thead>
@@ -23,7 +24,7 @@
         <tr ng-repeat="user in usersPage.content">
             <td>{{user.id}}</td>
             <td>{{user.username}}</td>
-            <td>{{user.userRole}}</td>
+            <td>{{user.role}}</td>
         </tr>
         </tbody>
     </table>

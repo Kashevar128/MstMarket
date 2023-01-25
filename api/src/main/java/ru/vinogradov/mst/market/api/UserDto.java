@@ -1,5 +1,16 @@
 package ru.vinogradov.mst.market.api;
 
-public class UserDto {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Data
+public class UserDto {
+    private Long id;
+    private String username;
+    private String role;
 }
