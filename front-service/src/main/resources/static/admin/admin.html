@@ -1,24 +1,7 @@
 <div>
     <p></p>
-    <h1>MstMarket</h1>
-    <p>Страничка админа</p>
-
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <td>ID</td>
-            <td>Название</td>
-            <td></td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="p in tableProducts">
-            <td>{{p.id}}</td>
-            <td>{{p.title}}</td>
-        </tr>
-        </tbody>
-    </table>
-
-    <button type="button" class="btn btn-outline-primary" disabled>Пользователи</button>
-    <button type="button" class="btn btn-outline-primary" disabled>Продукты</button>
+    <h3>Администрирование</h3>
+    <p></p>
+    <button ng-click="listUsers()" type="button" class="btn btn-outline-primary">Пользователи</button>
+    <button ng-click="listProducts()" type="button" class="btn btn-outline-primary">Продукты</button>
 </div>

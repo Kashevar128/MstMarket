@@ -1,13 +1,10 @@
-angular.module('market').controller('adminController', function ($scope, $http) {
-    $scope.getListProducts = function () {
-        $http.get('http://localhost:5555/core/api/v1/products/listProducts')
-            .then(function (response) {
-                $scope.tableProducts = response.data.productMyDtos;
-                console.log(response.data.productMyDtos)
-            });
+angular.module('market').controller('adminController', function ($scope, $location) {
+
+    $scope.listUsers = function () {
+        $location.path('/users')
     }
 
-    $scope.getListProducts();
-
-
+    $scope.listProducts = function () {
+        $location.path('/products')
+    }
 });
