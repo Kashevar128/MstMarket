@@ -5,6 +5,6 @@ import ru.vinogradov.mst.market.auth.entities.User;
 
 public class UsersSpecifications {
     public static Specification<User> titleLike(String titlePart) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), String.format("%%%s%%", titlePart));
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("username"), String.format("%%%s%%", titlePart));
     }
 }

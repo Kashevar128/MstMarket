@@ -58,7 +58,11 @@ public class AuthController {
     @PostMapping("/roleEdit")
     public ResponseEntity<?> roleEdit(@RequestBody UserDto userDto) {
         userService.roleEdit(userDto);
-        return ResponseEntity.ok("Права пользователя изменены");
+        StringResponse stringResponse = new StringResponse("Права пользователя изменены");
+        return ResponseEntity.ok(stringResponse);
     }
+
+    @DeleteMapping("/deleteUser/{id}")
+    public void deleteUser(@PathVariable Long id) {userService.deleteUser(id);}
 
 }

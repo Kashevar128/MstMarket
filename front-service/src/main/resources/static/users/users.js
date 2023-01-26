@@ -1,4 +1,4 @@
-angular.module('market').controller('usersController', function ($scope, $http, $localStorage, $location, $rootScope) {
+angular.module('market').controller('usersController', function ($scope, $http, $location, $rootScope) {
     const contextPath = 'http://localhost:5555/auth/';
 
     $scope.loadUsers = function (page = 1) {
@@ -27,6 +27,17 @@ angular.module('market').controller('usersController', function ($scope, $http, 
         $rootScope.edituser = {id: id, username: username, role: null}
         console.log($rootScope.edituser);
         $location.path('/editrole')
+    }
+
+    $scope.deleteUser = function (id) {
+        $http.delete(contextPath + 'deleteUser/' + id)
+            .then(function (response) {
+                $scope.loadUsers();
+            });
+    }
+
+    $scope.back = function () {
+        $location.path('/admin')
     }
 
     $scope.loadUsers();

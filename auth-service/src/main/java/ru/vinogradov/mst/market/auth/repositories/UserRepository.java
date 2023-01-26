@@ -14,6 +14,7 @@ import ru.vinogradov.mst.market.auth.entities.Role;
 import ru.vinogradov.mst.market.auth.entities.User;
 import ru.vinogradov.mst.market.auth.exceptions.ResourceNotFoundException;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,16 +22,4 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 
     Optional<User> findByUsername(String username);
-
-    @Transactional
-    default User deleteAndEdit(Long id, Role role) {
-        User user = findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Пользователь %d не найден ", id)));
-        delete(user);
-        List<Role> roles = user.getRoles();
-        roles.clear();
-        roles.add(role);
-        user.setRoles(roles);
-        user.setId(id);
-        return user;
-    };
 }

@@ -27,6 +27,7 @@ import ru.vinogradov.mst.market.auth.exceptions.TheUserAlreadyExistsException;
 import ru.vinogradov.mst.market.auth.repositories.UserRepository;
 import ru.vinogradov.mst.market.auth.utils.JwtTokenUtil;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -103,14 +104,21 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll(specification, PageRequest.of(page, pageSize));
     }
 
+    @Transactional
     public void roleEdit(UserDto userDto) {
         for (Role role : roleService.getAllRoles()) {
             if (role.getName().equals(userDto.getRole())) {
-                User editUser = userRepository.deleteAndEdit(userDto.getId(), role);
-                userRepository.save(editUser);
+                User user = userRepository.getById(userDto.getId());
+                user.getRoles().clear();
+                user.getRoles().add(role);
+                userRepository.save(user);
                 return;
             }
         }
         throw new IncorrectRoleUserException("Такой роли не существует!");
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }

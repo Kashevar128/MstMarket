@@ -1,6 +1,6 @@
 <div>
     <p></p>
-    <h3>Список пользователей</h3>
+    <h3>Управление пользователями</h3>
     <p></p>
     <form novalidate ng-submit="loadUsers()">
         <div class="form-floating input-group-sm">
@@ -25,12 +25,14 @@
             <td>{{user.id}}</td>
             <td>{{user.username}}</td>
             <td>{{user.role}}</td>
-            <td> <button class="btn btn-outline-danger btn-sm">Удалить пользователя</button><td>
+            <td> <button class="btn btn-outline-danger btn-sm" ng-click="deleteUser(user.id)">Удалить пользователя</button><td>
             <td> <button class="btn btn-outline-primary btn-sm" ng-click="editRole(user.id, user.username)">Изменить права пользователя</button><td>
         </tr>
         </tbody>
     </table>
 
+    <button class="btn btn-outline-info btn-sm" ng-click="back()">Назад</button>
+    <p></p>
     <nav aria-label="Page navigation">
         <ul class="pagination">
             <li class="page-item" ng-repeat="pageIndex in pagesList">

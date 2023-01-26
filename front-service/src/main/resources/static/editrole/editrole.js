@@ -1,11 +1,13 @@
-angular.module('market').controller('roleController', function ($scope, $http, $rootScope) {
+angular.module('market').controller('roleController', function ($scope, $http, $rootScope, $location) {
     const contextPath = 'http://localhost:5555/auth/';
 
     $scope.editRole = function () {
         console.log($rootScope.edituser);
         $http.post(contextPath + 'roleEdit', $rootScope.edituser).then(function succes (response) {
-            alert(response.data);
-            $location.path('/users');
+            if (response.data.value) {
+                alert(response.data.value);
+                $location.path('/users');
+            }
         }, function error (response) {
             let me = response;
             console.log(me);
