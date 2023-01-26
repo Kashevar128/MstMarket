@@ -8,7 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,14 +16,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vinogradov.mst.market.api.JwtRequest;
-import ru.vinogradov.mst.market.api.JwtResponse;
 import ru.vinogradov.mst.market.api.RegistrationUserDto;
+import ru.vinogradov.mst.market.api.UserDto;
 import ru.vinogradov.mst.market.auth.entities.Role;
 import ru.vinogradov.mst.market.auth.entities.User;
 import ru.vinogradov.mst.market.auth.exceptions.DontMatchPasswordsException;
 import ru.vinogradov.mst.market.auth.exceptions.IncorrectLoginOrPasswordException;
+import ru.vinogradov.mst.market.auth.exceptions.IncorrectRoleUserException;
 import ru.vinogradov.mst.market.auth.exceptions.TheUserAlreadyExistsException;
-import ru.vinogradov.mst.market.auth.repositories.RoleRepository;
 import ru.vinogradov.mst.market.auth.repositories.UserRepository;
 import ru.vinogradov.mst.market.auth.utils.JwtTokenUtil;
 
@@ -101,5 +101,16 @@ public class UserService implements UserDetailsService {
 
     public Page<User> findAll(int page, int pageSize, Specification<User> specification) {
         return userRepository.findAll(specification, PageRequest.of(page, pageSize));
+    }
+
+    public void roleEdit(UserDto userDto) {
+        for (Role role : roleService.getAllRoles()) {
+            if (role.getName().equals(userDto.getRole())) {
+                User editUser = userRepository.deleteAndEdit(userDto.getId(), role);
+                userRepository.save(editUser);
+                return;
+            }
+        }
+        throw new IncorrectRoleUserException("Такой роли не существует!");
     }
 }

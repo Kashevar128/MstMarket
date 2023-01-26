@@ -1,5 +1,4 @@
-
-angular.module('market').controller('usersController', function ($scope, $http, $localStorage, $rootScope) {
+angular.module('market').controller('usersController', function ($scope, $http, $localStorage, $location, $rootScope) {
     const contextPath = 'http://localhost:5555/auth/';
 
     $scope.loadUsers = function (page = 1) {
@@ -22,6 +21,12 @@ angular.module('market').controller('usersController', function ($scope, $http, 
             out.push(i + 1);
         }
         $scope.pagesList = out;
+    }
+
+    $scope.editRole = function (id, username) {
+        $rootScope.edituser = {id: id, username: username, role: null}
+        console.log($rootScope.edituser);
+        $location.path('/editrole')
     }
 
     $scope.loadUsers();

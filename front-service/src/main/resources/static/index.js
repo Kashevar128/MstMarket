@@ -38,6 +38,10 @@
                 templateUrl: 'products/products.html',
                 controller: 'productsController'
             })
+            .when('/editrole', {
+                templateUrl: 'editrole/editrole.html',
+                controller: 'roleController'
+            })
             .otherwise({
                 redirectTo: '/'
             });

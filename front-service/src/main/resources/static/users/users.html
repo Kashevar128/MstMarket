@@ -25,6 +25,8 @@
             <td>{{user.id}}</td>
             <td>{{user.username}}</td>
             <td>{{user.role}}</td>
+            <td> <button class="btn btn-outline-danger btn-sm">Удалить пользователя</button><td>
+            <td> <button class="btn btn-outline-primary btn-sm" ng-click="editRole(user.id, user.username)">Изменить права пользователя</button><td>
         </tr>
         </tbody>
     </table>

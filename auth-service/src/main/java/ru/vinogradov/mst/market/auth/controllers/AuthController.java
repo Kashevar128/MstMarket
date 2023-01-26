@@ -39,28 +39,6 @@ public class AuthController {
         return ResponseEntity.ok(jwtResponse);
     }
 
-//    @GetMapping
-//    public Page<ProductDto> getAllUsers(
-//            @RequestParam(name = "p", defaultValue = "1") Integer page,
-//            @RequestParam(name = "page_size", defaultValue = "10") Integer pageSize,
-//            @RequestParam(name = "title_part", required = false) String titlePart
-//    ) {
-//        if (page < 1) {
-//            page = 1;
-//        }
-//        Specification<Product> spec = Specification.where(null);
-//        if (titlePart != null) {
-//            spec = spec.and(ProductsSpecifications.titleLike(titlePart));
-//        }
-//        if (minPrice != null) {
-//            spec = spec.and(ProductsSpecifications.priceGreaterOrEqualsThan(BigDecimal.valueOf(minPrice)));
-//        }
-//        if (maxPrice != null) {
-//            spec = spec.and(ProductsSpecifications.priceLessThanOrEqualsThan(BigDecimal.valueOf(maxPrice)));
-//        }
-//        return productService.findAll(page - 1, pageSize, spec).map(productMapper::mapProductToProductDto);
-//    }
-//
     @GetMapping("/listUsers")
     public Page<UserDto> getAllUsers(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
@@ -76,4 +54,11 @@ public class AuthController {
         }
         return userService.findAll(page - 1, pageSize, spec).map(userMapper::mapUserToUserDto);
     }
+
+    @PostMapping("/roleEdit")
+    public ResponseEntity<?> roleEdit(@RequestBody UserDto userDto) {
+        userService.roleEdit(userDto);
+        return ResponseEntity.ok("Права пользователя изменены");
+    }
+
 }

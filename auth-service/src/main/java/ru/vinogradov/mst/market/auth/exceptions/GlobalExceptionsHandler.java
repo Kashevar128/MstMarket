@@ -26,4 +26,9 @@ public class GlobalExceptionsHandler {
     public ResponseEntity<AppError> handlerTheUserAlreadyExistsException(TheUserAlreadyExistsException e) {
         return new ResponseEntity<>(new AppError("INCORRECT_USER_DATA", e.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler
+    public ResponseEntity<AppError> handlerIncorrectRoleUserException(IncorrectRoleUserException e) {
+        return new ResponseEntity<>(new AppError("INCORRECT_USER_DATA", e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 }
