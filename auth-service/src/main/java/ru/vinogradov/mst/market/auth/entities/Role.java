@@ -26,4 +26,6 @@ public class Role {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+
 }

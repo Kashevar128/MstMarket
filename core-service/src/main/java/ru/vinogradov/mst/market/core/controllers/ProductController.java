@@ -10,8 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vinogradov.mst.market.api.ProductDto;
+import ru.vinogradov.mst.market.api.StringResponse;
 import ru.vinogradov.mst.market.core.entities.Product;
 import ru.vinogradov.mst.market.core.exceptions.AppError;
 import ru.vinogradov.mst.market.core.exceptions.ResourceNotFoundException;
@@ -20,6 +22,8 @@ import ru.vinogradov.mst.market.core.repositories.specifications.ProductsSpecifi
 import ru.vinogradov.mst.market.core.services.ProductService;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -32,10 +36,10 @@ public class ProductController {
     @GetMapping
     public Page<ProductDto> getAllProducts(
             @RequestParam(name = "p", defaultValue = "1") @Parameter(description = "Номер страницы", required = true) Integer page,
-            @RequestParam(name = "page_size", defaultValue = "10") @Parameter(description = "Номер страницы", required = false)  Integer pageSize,
-            @RequestParam(name = "title_part", required = false) @Parameter(description = "Фильтр части названия продукта", required = false)  String titlePart,
-            @RequestParam(name = "min_price", required = false) @Parameter(description = "Фильтр по мин цене продукта", required = false)  Integer minPrice,
-            @RequestParam(name = "max_price", required = false) @Parameter(description = "Фильтр по макс цене продукта", required = false)  Integer maxPrice
+            @RequestParam(name = "page_size", defaultValue = "10") @Parameter(description = "Номер страницы", required = false) Integer pageSize,
+            @RequestParam(name = "title_part", required = false) @Parameter(description = "Фильтр части названия продукта", required = false) String titlePart,
+            @RequestParam(name = "min_price", required = false) @Parameter(description = "Фильтр по мин цене продукта", required = false) Integer minPrice,
+            @RequestParam(name = "max_price", required = false) @Parameter(description = "Фильтр по макс цене продукта", required = false) Integer maxPrice
     ) {
         if (page < 1) {
             page = 1;
@@ -49,6 +53,22 @@ public class ProductController {
         }
         if (maxPrice != null) {
             spec = spec.and(ProductsSpecifications.priceLessThanOrEqualsThan(BigDecimal.valueOf(maxPrice)));
+        }
+        return productService.findAll(page - 1, pageSize, spec).map(productMapper::mapProductToProductDto);
+    }
+
+    @GetMapping("/forAdmin")
+    public Page<ProductDto> getProductForAdmin(
+            @RequestParam(name = "p", defaultValue = "1") Integer page,
+            @RequestParam(name = "page_size", defaultValue = "5") Integer pageSize,
+            @RequestParam(name = "title_part", required = false) String titlePart
+    ) {
+        if (page < 1) {
+            page = 1;
+        }
+        Specification<Product> spec = Specification.where(null);
+        if (titlePart != null) {
+            spec = spec.and(ProductsSpecifications.titleLike(titlePart));
         }
         return productService.findAll(page - 1, pageSize, spec).map(productMapper::mapProductToProductDto);
     }
@@ -81,8 +101,10 @@ public class ProductController {
     )
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createNewProducts(@RequestBody ProductDto productDto) {
+    public ResponseEntity<?> createNewProducts(@RequestBody ProductDto productDto) {
         productService.createNewProduct(productDto);
+        StringResponse stringResponse = new StringResponse(String.format("%s успешно добавлен", productDto.getTitle()));
+        return ResponseEntity.ok(stringResponse);
     }
 
     @DeleteMapping("/{id}")

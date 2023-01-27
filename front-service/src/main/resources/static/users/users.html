@@ -1,0 +1,43 @@
+<div>
+    <p></p>
+    <h3>Управление пользователями</h3>
+    <p></p>
+    <form novalidate ng-submit="loadUsers()">
+        <div class="form-floating input-group-sm">
+            <input style="width: 40%;" type="text" class="form-control" id="filterTitle" placeholder="" ng-model="filter.title_part">
+            <label for="filterTitle">Введите имя пользователя</label>
+        </div>
+        <p></p>
+        <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Найти</button>
+    </form>
+    <p></p>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Имя пользователя</td>
+            <td>Права пользователя</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="user in usersPage.content">
+            <td>{{user.id}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.role}}</td>
+            <td> <button class="btn btn-outline-danger btn-sm" ng-click="deleteUser(user.id)">Удалить пользователя</button><td>
+            <td> <button class="btn btn-outline-primary btn-sm" ng-click="editRole(user.id, user.username)">Изменить права пользователя</button><td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-outline-info btn-sm" ng-click="back()">Назад</button>
+    <p></p>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item" ng-repeat="pageIndex in pagesList">
+                <button class="page-link" ng-click="loadUsers(pageIndex)">{{pageIndex}}</button>
+            </li>
+        </ul>
+    </nav>
+</div>

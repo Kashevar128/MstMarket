@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.vinogradov.mst.market.api.ProductDto;
 import ru.vinogradov.mst.market.core.exceptions.ResourceNotFoundException;
 import ru.vinogradov.mst.market.core.entities.Product;
+import ru.vinogradov.mst.market.core.exceptions.TheProductExistsExeption;
 import ru.vinogradov.mst.market.core.repositories.ProductRepository;
 
 import java.util.Optional;
@@ -30,7 +31,12 @@ public class ProductService {
         Product product = new Product();
         product.setTitle(productDto.getTitle());
         product.setPrice(productDto.getPrice());
-        product.setCategory(categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(() -> new ResourceNotFoundException("Категория с названием: " + productDto.getCategoryTitle() + " не найдена")));
+        product.setCategory(categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(
+                () -> new ResourceNotFoundException("Категория с названием: " +
+                        productDto.getCategoryTitle() + " не найдена")));
+        if (productRepository.existsByTitle(productDto.getTitle())) {
+            throw new TheProductExistsExeption("Такой продукт уже существует");
+        }
         productRepository.save(product);
     }
 

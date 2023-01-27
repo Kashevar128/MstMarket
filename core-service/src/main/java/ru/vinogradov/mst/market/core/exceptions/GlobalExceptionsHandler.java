@@ -16,4 +16,9 @@ public class GlobalExceptionsHandler {
     public ResponseEntity<AppError> handleIllegalStateException(IllegalStateException e) {
         return new ResponseEntity<>(new AppError("ILLEGAL_DATA_STATE", e.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler
+    public ResponseEntity<AppError> handleTheProductExistsException(TheProductExistsExeption e) {
+        return new ResponseEntity<>(new AppError("ILLEGAL_DATA_STATE", e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 }

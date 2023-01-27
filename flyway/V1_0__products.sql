@@ -17,6 +17,7 @@ create table products
 );
 
 insert into categories (title) values ('Еда');
+insert into categories (title) values ('Хозтовары');
 
 insert into products (title, price, category_id)
 values ('Молоко', 100.20, 1),

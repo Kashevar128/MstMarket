@@ -26,6 +26,26 @@
                 templateUrl: 'registration/registration.html',
                 controller: 'registrationController'
             })
+            .when('/admin', {
+                templateUrl: 'admin/admin.html',
+                controller: 'adminController'
+            })
+            .when('/users', {
+                templateUrl: 'users/users.html',
+                controller: 'usersController'
+            })
+            .when('/products', {
+                templateUrl: 'products/products.html',
+                controller: 'productsController'
+            })
+            .when('/editrole', {
+                templateUrl: 'editrole/editrole.html',
+                controller: 'roleController'
+            })
+            .when('/registrationProduct', {
+                templateUrl: 'registrationProduct/registrationProduct.html',
+                controller: 'registrationProductController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -37,6 +57,7 @@
                 let jwt = $localStorage.mstMarketUser.token;
                 let payload = JSON.parse(atob(jwt.split('.')[1]));
                 let currentTime = parseInt(new Date().getTime() / 1000);
+                $localStorage.visibleAdmin = true;
                 if (currentTime > payload.exp) {
                     console.log("Token is expired!!!");
                     delete $localStorage.marchMarketUser;
@@ -63,11 +84,15 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
         $http.post('http://localhost:5555/auth/authenticate', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
+                    console.log(response.data);
+                    $localStorage.visibleAdmin = response.data.visibleAdminButton;
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                     $localStorage.mstMarketUser = {username: $scope.user.username, token: response.data.token};
 
                     $scope.user.username = null;
                     $scope.user.password = null;
+
+                    alert('Привет ' + $localStorage.mstMarketUser.username + '!')
 
                     $location.path('/');
                 }
@@ -80,6 +105,7 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
 
     $scope.tryToLogout = function () {
         $scope.clearUser();
+        $localStorage.visibleAdmin = false;
         $location.path('/');
     };
 
@@ -87,6 +113,10 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
         delete $localStorage.mstMarketUser;
         $http.defaults.headers.common.Authorization = '';
     };
+
+    $scope.isVisibleAdmin = function () {
+        return $localStorage.visibleAdmin;
+    }
 
     $rootScope.isUserLoggedIn = function () {
         if ($localStorage.mstMarketUser) {
