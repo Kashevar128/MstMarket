@@ -25,7 +25,4 @@ public class ProductDto {
 
     @Schema(description = "Категория продукта", required = true, example = "Еда")
     private String categoryTitle;
-
-    @Schema(description = "Категория качества продукта", required = true, example = "A")
-    private DataEnum abcProduct;
 }

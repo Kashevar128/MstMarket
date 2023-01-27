@@ -10,8 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vinogradov.mst.market.api.ProductDto;
+import ru.vinogradov.mst.market.api.StringResponse;
 import ru.vinogradov.mst.market.core.entities.Product;
 import ru.vinogradov.mst.market.core.exceptions.AppError;
 import ru.vinogradov.mst.market.core.exceptions.ResourceNotFoundException;
@@ -55,6 +57,22 @@ public class ProductController {
         return productService.findAll(page - 1, pageSize, spec).map(productMapper::mapProductToProductDto);
     }
 
+    @GetMapping("/forAdmin")
+    public Page<ProductDto> getProductForAdmin(
+            @RequestParam(name = "p", defaultValue = "1") Integer page,
+            @RequestParam(name = "page_size", defaultValue = "5") Integer pageSize,
+            @RequestParam(name = "title_part", required = false) String titlePart
+    ) {
+        if (page < 1) {
+            page = 1;
+        }
+        Specification<Product> spec = Specification.where(null);
+        if (titlePart != null) {
+            spec = spec.and(ProductsSpecifications.titleLike(titlePart));
+        }
+        return productService.findAll(page - 1, pageSize, spec).map(productMapper::mapProductToProductDto);
+    }
+
     @Operation(
             summary = "Запрос на получение продукта по id",
             responses = {
@@ -83,24 +101,14 @@ public class ProductController {
     )
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createNewProducts(@RequestBody ProductDto productDto) {
+    public ResponseEntity<?> createNewProducts(@RequestBody ProductDto productDto) {
         productService.createNewProduct(productDto);
+        StringResponse stringResponse = new StringResponse(String.format("%s успешно добавлен", productDto.getTitle()));
+        return ResponseEntity.ok(stringResponse);
     }
 
     @DeleteMapping("/{id}")
     public void deleteProductById(@PathVariable Long id) {
         productService.deleteById(id);
-    }
-
-    @GetMapping("/listProducts")
-    @ResponseBody
-    public MyProductDtoList getProducts() {
-        ProductMyDto productMyDto = new ProductMyDto(1L, "Сахар");
-        ProductMyDto productMyDto2 = new ProductMyDto(2L, "Соль");
-        List<ProductMyDto> productMyDtoList = new ArrayList<>();
-        productMyDtoList.add(productMyDto);
-        productMyDtoList.add(productMyDto2);
-        MyProductDtoList myProductDtoList = new MyProductDtoList(productMyDtoList);
-        return myProductDtoList;
     }
 }

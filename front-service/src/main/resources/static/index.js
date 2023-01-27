@@ -42,6 +42,10 @@
                 templateUrl: 'editrole/editrole.html',
                 controller: 'roleController'
             })
+            .when('/registrationProduct', {
+                templateUrl: 'registrationProduct/registrationProduct.html',
+                controller: 'registrationProductController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -87,6 +91,8 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
 
                     $scope.user.username = null;
                     $scope.user.password = null;
+
+                    alert('Привет ' + $localStorage.mstMarketUser.username + '!')
 
                     $location.path('/');
                 }

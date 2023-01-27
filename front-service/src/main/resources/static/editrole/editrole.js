@@ -14,4 +14,8 @@ angular.module('market').controller('roleController', function ($scope, $http, $
             alert(me.data.message);
         });
     }
+
+    $scope.back = function () {
+        $location.path('/users')
+    }
 });

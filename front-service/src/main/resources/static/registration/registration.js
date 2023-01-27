@@ -6,7 +6,8 @@ angular.module('market').controller('registrationController', function ($scope, 
             if (response.data.token) {
                 $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                 $localStorage.mstMarketUser = {username: $scope.reguser.username, token: response.data.token};
-                $localStorage.reguser = null;
+                $scope.reguser = null;
+                alert('Привет ' + $localStorage.mstMarketUser.username + '!')
                 $location.path("/");
             }
         }, function error (response) {
