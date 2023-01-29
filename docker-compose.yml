@@ -5,7 +5,7 @@ services:
     image: postgres:10
     domainname: postgres
     ports:
-      - "5450:5432"
+      - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -23,7 +23,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - "7500:7499"
+      - "7500:7500"
 
   redis:
     image: 'bitnami/redis:latest'
