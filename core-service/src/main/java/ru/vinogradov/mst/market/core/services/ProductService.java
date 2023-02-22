@@ -27,7 +27,7 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public void createNewProduct(ProductDto productDto) {
+    public Product createNewProduct(ProductDto productDto) {
         Product product = new Product();
         product.setTitle(productDto.getTitle());
         product.setPrice(productDto.getPrice());
@@ -38,6 +38,7 @@ public class ProductService {
             throw new TheProductExistsExeption("Такой продукт уже существует");
         }
         productRepository.save(product);
+        return product;
     }
 
     public Optional<Product> findById(Long id) {

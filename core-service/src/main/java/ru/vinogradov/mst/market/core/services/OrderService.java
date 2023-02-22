@@ -21,7 +21,7 @@ public class OrderService {
     private final ProductService productService;
 
     @Transactional
-    public void createNewOrder(String username) {
+    public Order createNewOrder(String username) {
         CartDto cart = cartServiceIntegration.getCurrentUserCart(username);
         if (cart.getItems().isEmpty()) {
             throw new IllegalStateException("Нельзя оформить заказ для пустой корзины");
@@ -41,6 +41,7 @@ public class OrderService {
         });
         orderRepository.save(order);
         cartServiceIntegration.clearCart(username);
+        return order;
     }
 
     public List<Order> findUserOrders(String username) {
