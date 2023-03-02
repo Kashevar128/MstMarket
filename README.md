@@ -18,7 +18,7 @@
 Запуск приложения:
 1. git clone https://github.com/Kashevar128/MstMarket
 2. cd MstMarket
-3. ./mvnw clean install -DskipTests
+3. mvn clean install
 4. sudo docker-compose up -d
 5. Откыть в браузере http://localhost:3000/market-front
 
