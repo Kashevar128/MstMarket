@@ -39,6 +39,7 @@
 * Lombok
 * Swagger
 * Docker
+* Spring Data JPA
 
 
 
