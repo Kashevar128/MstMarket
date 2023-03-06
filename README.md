@@ -19,7 +19,7 @@
 случае нажмите "Выйти" в табличке регистрации пользователя.
 
 Запуск приложения:
-1. git clone https://github.com/Kashevar128/MstMarket
+1. git clone https://github.com/Kashevar128/MstMarket.git
 2. cd MstMarket
 3. mvn clean install
 4. sudo docker-compose up -d
