@@ -40,6 +40,7 @@
 * Swagger
 * Docker
 * Spring Data JPA
+* JUnit
 
 
 
