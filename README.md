@@ -31,7 +31,7 @@
 * Spring Boot
 * Maven
 * Spring Cloud Gateway
-* Spring Web Servies
+* Spring Web Service
 * Spring Security
 * PostgreSQL
 * Flyway Migration
