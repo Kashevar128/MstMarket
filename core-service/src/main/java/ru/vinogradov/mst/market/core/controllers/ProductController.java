@@ -14,11 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vinogradov.mst.market.api.ProductDto;
 import ru.vinogradov.mst.market.api.StringResponse;
+import ru.vinogradov.mst.market.core.entities.Category;
 import ru.vinogradov.mst.market.core.entities.Product;
 import ru.vinogradov.mst.market.core.exceptions.AppError;
 import ru.vinogradov.mst.market.core.exceptions.ResourceNotFoundException;
 import ru.vinogradov.mst.market.core.mappers.ProductMapper;
 import ru.vinogradov.mst.market.core.repositories.specifications.ProductsSpecifications;
+import ru.vinogradov.mst.market.core.services.CategoryService;
 import ru.vinogradov.mst.market.core.services.ProductService;
 
 import java.math.BigDecimal;
@@ -31,6 +33,7 @@ import java.util.List;
 @Tag(name = "Продукты", description = "Методы работы с продуктами")
 public class ProductController {
     private final ProductService productService;
+    private final CategoryService categoryService;
     private final ProductMapper productMapper;
 
     @GetMapping
@@ -55,6 +58,11 @@ public class ProductController {
             spec = spec.and(ProductsSpecifications.priceLessThanOrEqualsThan(BigDecimal.valueOf(maxPrice)));
         }
         return productService.findAll(page - 1, pageSize, spec).map(productMapper::mapProductToProductDto);
+    }
+
+    @GetMapping("/categories")
+    public List<Category> getCategoriesProducts() {
+        return categoryService.getAllCategories();
     }
 
     @GetMapping("/forAdmin")

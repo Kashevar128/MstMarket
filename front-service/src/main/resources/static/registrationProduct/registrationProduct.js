@@ -1,8 +1,8 @@
 angular.module('market').controller('registrationProductController', function ($scope, $http, $location, $localStorage) {
-    const contextPath = 'http://localhost:5555/core/api/v1/products';
+    const contextPath = 'http://localhost:5555/core/api/v1';
 
     $scope.functionRegistrationProduct = function () {
-        $http.post(contextPath, $scope.regproduct).then(function success (response) {
+        $http.post(contextPath + '/products', $scope.regproduct).then(function success (response) {
             alert(response.data.value);
             $location.path('/products');
         }, function error (response) {
@@ -13,6 +13,13 @@ angular.module('market').controller('registrationProductController', function ($
     }
 
     $scope.back = function () {
-        $location.path('/products')
+        $location.path(contextPath + '/products')
     }
+
+    $scope.getCategories = function () {
+        $http.get(contextPath + '/categories').then(function success (response) {
+            $scope.categoryList = response.data
+        });
+    }
+    $scope.getCategories();
 });

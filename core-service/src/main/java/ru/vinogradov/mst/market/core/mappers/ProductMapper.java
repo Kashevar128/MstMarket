@@ -7,11 +7,6 @@ import ru.vinogradov.mst.market.core.repositories.ProductRepository;
 
 @Component
 public class ProductMapper {
-    private final ProductRepository productRepository;
-
-    public ProductMapper(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 
     public ProductDto mapProductToProductDto (Product product) {
         return ProductDto.builder()
