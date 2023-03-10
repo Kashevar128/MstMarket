@@ -26,6 +26,10 @@
             <button class="btn btn-outline-danger btn-sm" ng-click="editVisibleProduct(p.id, false)" ng-show="p.visible">Убрать из магазина</button>
             <button class="btn btn-outline-primary btn-sm" ng-click="editVisibleProduct(p.id, true)" ng-show="!p.visible">Вернуть в магазин</button>
             </td>
+            <td>
+                <button class="btn btn-outline-success btn-sm"
+                        ng-click="updateProduct(p.id, p.title, p.price, p.categoryTitle)">Редактировать</button>
+            </td>
         </tr>
         </tbody>
     </table>

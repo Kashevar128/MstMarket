@@ -116,7 +116,14 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> createNewProducts(@RequestBody ProductDto productDto) {
         productService.createNewProduct(productDto);
-        StringResponse stringResponse = new StringResponse(String.format("%s успешно добавлен", productDto.getTitle()));
+        StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно создан", productDto.getTitle()));
+        return ResponseEntity.ok(stringResponse);
+    }
+
+    @PostMapping("/updateProduct")
+    public ResponseEntity<?> updateDataProduct(@RequestBody ProductDto productDto) {
+        productService.updateProduct(productDto);
+        StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно обновлен", productDto.getTitle()));
         return ResponseEntity.ok(stringResponse);
     }
 

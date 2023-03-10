@@ -6,15 +6,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vinogradov.mst.market.api.ProductDto;
+import ru.vinogradov.mst.market.core.entities.Category;
 import ru.vinogradov.mst.market.core.entities.Order;
 import ru.vinogradov.mst.market.core.exceptions.ResourceNotFoundException;
 import ru.vinogradov.mst.market.core.entities.Product;
 import ru.vinogradov.mst.market.core.exceptions.TheProductExistsExeption;
 import ru.vinogradov.mst.market.core.repositories.ProductRepository;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,10 +31,23 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
+    @Transactional
+    public Product updateProduct(ProductDto productDto) {
+        Product product = productRepository.getById(productDto.getId());
+        product.setTitle(productDto.getTitle());
+        product.setPrice(productDto.getPrice());
+        Category category = categoryService.findByTitle(productDto.getCategoryTitle())
+                .orElseThrow(() -> new ResourceNotFoundException("Категория не найдена"));
+        product.setCategory(category);
+        productRepository.save(product);
+        return product;
+    }
+
     public Product createNewProduct(ProductDto productDto) {
         Product product = new Product();
         product.setTitle(productDto.getTitle());
         product.setPrice(productDto.getPrice());
+        product.setVisible(true);
         product.setCategory(categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(
                 () -> new ResourceNotFoundException("Категория с названием: " +
                         productDto.getCategoryTitle() + " не найдена")));
@@ -50,6 +62,7 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
+    @Transactional
     public void updateVisible(Long id, Boolean visible) {
         Product byId = productRepository.getById(id);
         byId.setVisible(visible);

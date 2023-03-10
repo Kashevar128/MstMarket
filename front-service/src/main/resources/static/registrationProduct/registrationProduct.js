@@ -13,7 +13,7 @@ angular.module('market').controller('registrationProductController', function ($
     }
 
     $scope.back = function () {
-        $location.path(contextPath + '/products')
+        $location.path('/products')
     }
 
     $scope.getCategories = function () {

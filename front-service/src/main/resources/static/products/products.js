@@ -1,4 +1,4 @@
-angular.module('market').controller('productsController', function ($scope, $http, $location) {
+angular.module('market').controller('productsController', function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:5555/core/api/v1/products';
     $scope.loadProducts = function (page = 1) {
         $scope.lastClickPage = page;
@@ -24,7 +24,13 @@ angular.module('market').controller('productsController', function ($scope, $htt
     }
 
     $scope.createNewProduct = function () {
-        $location.path('/registrationProduct')
+        $location.path('/registrationProduct');
+    }
+
+    $scope.updateProduct = function (id, title, price, categoryTitle) {
+        $localStorage.updateProductData = {id: id, title: title, price: price,
+            categoryTitle: categoryTitle};
+        $location.path('/updateProduct');
     }
 
     $scope.deleteProduct = function (id) {

@@ -46,6 +46,10 @@
                 templateUrl: 'registrationProduct/registrationProduct.html',
                 controller: 'registrationProductController'
             })
+            .when('/updateProduct', {
+                templateUrl: 'updateProduct/updateProduct.html',
+                controller: 'updateProductController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
