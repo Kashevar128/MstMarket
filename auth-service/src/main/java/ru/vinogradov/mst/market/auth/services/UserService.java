@@ -3,6 +3,7 @@ package ru.vinogradov.mst.market.auth.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -101,7 +102,8 @@ public class UserService implements UserDetailsService {
     }
 
     public Page<User> findAll(int page, int pageSize, Specification<User> specification) {
-        return userRepository.findAll(specification, PageRequest.of(page, pageSize));
+        Sort sort = Sort.by("username");
+        return userRepository.findAll(specification, PageRequest.of(page, pageSize, sort));
     }
 
     @Transactional

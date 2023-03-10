@@ -13,6 +13,7 @@ public class ProductMapper {
                 .id(product.getId())
                 .title(product.getTitle())
                 .price(product.getPrice())
+                .visible(product.isVisible())
                 .categoryTitle(product.getCategory().getTitle())
                 .build();
     }

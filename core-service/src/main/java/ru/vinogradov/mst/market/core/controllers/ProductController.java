@@ -24,7 +24,6 @@ import ru.vinogradov.mst.market.core.services.CategoryService;
 import ru.vinogradov.mst.market.core.services.ProductService;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -49,13 +48,19 @@ public class ProductController {
         }
         Specification<Product> spec = Specification.where(null);
         if (titlePart != null) {
-            spec = spec.and(ProductsSpecifications.titleLike(titlePart));
+            spec = spec.and(ProductsSpecifications.titleLike(titlePart))
+                    .and(ProductsSpecifications.visibleLike());
         }
-        if (minPrice != null) {
-            spec = spec.and(ProductsSpecifications.priceGreaterOrEqualsThan(BigDecimal.valueOf(minPrice)));
+        else if (minPrice != null) {
+            spec = spec.and(ProductsSpecifications.priceGreaterOrEqualsThan(BigDecimal.valueOf(minPrice)))
+                    .and(ProductsSpecifications.visibleLike());
         }
-        if (maxPrice != null) {
-            spec = spec.and(ProductsSpecifications.priceLessThanOrEqualsThan(BigDecimal.valueOf(maxPrice)));
+        else if (maxPrice != null) {
+            spec = spec.and(ProductsSpecifications.priceLessThanOrEqualsThan(BigDecimal.valueOf(maxPrice)))
+                    .and(ProductsSpecifications.visibleLike());
+        }
+        else {
+            spec = spec.and(ProductsSpecifications.visibleLike());
         }
         return productService.findAll(page - 1, pageSize, spec).map(productMapper::mapProductToProductDto);
     }
@@ -118,5 +123,10 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void deleteProductById(@PathVariable Long id) {
         productService.deleteById(id);
+    }
+
+    @PostMapping("editVisible/{id}")
+    public void updateVisibleProduct(@PathVariable Long id, @RequestParam(name = "visible") Boolean visible) {
+        productService.updateVisible(id, visible);
     }
 }

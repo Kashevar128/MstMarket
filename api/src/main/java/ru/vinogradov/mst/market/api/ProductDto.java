@@ -23,6 +23,9 @@ public class ProductDto {
     @Schema(description = "Цена продукта", required = true, example = "120.00")
     private BigDecimal price;
 
+    @Schema(description = "Видимость продукта", required = true, example = "true")
+    private boolean visible;
+
     @Schema(description = "Категория продукта", required = true, example = "Еда")
     private String categoryTitle;
 }

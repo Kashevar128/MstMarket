@@ -29,6 +29,9 @@ public class Product {
     @Column(name = "price")
     private BigDecimal price;
 
+    @Column(name = "visible")
+    private boolean visible;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;

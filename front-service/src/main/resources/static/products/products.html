@@ -14,19 +14,17 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <td>ID</td>
-            <td>Название</td>
-            <td>Цена</td>
-            <td></td>
+            <th>Название</th>
+            <th>Цена</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="p in productsPage.content">
-            <td>{{p.id}}</td>
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
             <td>
-            <td> <button class="btn btn-outline-danger btn-sm" ng-click="deleteProduct(p.id)">Удалить продукт</button><td>
+            <button class="btn btn-outline-danger btn-sm" ng-click="editVisibleProduct(p.id, false)" ng-show="p.visible">Убрать из магазина</button>
+            <button class="btn btn-outline-primary btn-sm" ng-click="editVisibleProduct(p.id, true)" ng-show="!p.visible">Вернуть в магазин</button>
             </td>
         </tr>
         </tbody>

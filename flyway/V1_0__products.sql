@@ -9,9 +9,10 @@ create table categories
 create table products
 (
     id              bigserial primary key,
-    title           varchar(255),
+    title           varchar(255) not null ,
     price           numeric(8, 2) not null,
-    category_id     bigint references categories (id),
+    category_id     bigint references categories (id) not null,
+    visible         boolean not null,
     created_at      timestamp default current_timestamp,
     updated_at      timestamp default current_timestamp
 );
@@ -19,19 +20,19 @@ create table products
 insert into categories (title) values ('Еда');
 insert into categories (title) values ('Хозтовары');
 
-insert into products (title, price, category_id)
-values ('Молоко', 100.20, 1),
-       ('Хлеб', 80.20, 1),
-       ('Сыр', 90.20, 1),
-       ('Масло', 320.00, 1),
-       ('Бублики', 50.00, 1),
-       ('Пирожок', 30.00, 1),
-       ('Огурцы', 140.00, 1),
-       ('Помидоры', 160.00, 1),
-       ('Лимонад', 100.00, 1),
-       ('Подсолнечное масло', 110.00, 1),
-       ('Мороженное', 70.00, 1),
-       ('Coca-Cola 0.9 л.', 87.00, 1);
+insert into products (title, price, category_id, visible)
+values ('Молоко', 100.20, 1, true),
+       ('Хлеб', 80.20, 1, true),
+       ('Сыр', 90.20, 1, true),
+       ('Масло', 320.00, 1, true),
+       ('Бублики', 50.00, 1, true),
+       ('Пирожок', 30.00, 1, true),
+       ('Огурцы', 140.00, 1, true),
+       ('Помидоры', 160.00, 1, true),
+       ('Лимонад', 100.00, 1, true),
+       ('Подсолнечное масло', 110.00, 1, true),
+       ('Мороженное', 70.00, 1, true),
+       ('Coca-Cola 0.9 л.', 87.00, 1, true);
 
 create table orders
 (

@@ -1,9 +1,9 @@
-
 angular.module('market').controller('productsController', function ($scope, $http, $location) {
     const contextPath = 'http://localhost:5555/core/api/v1/products';
     $scope.loadProducts = function (page = 1) {
+        $scope.lastClickPage = page;
         $http({
-            url:  contextPath + '/forAdmin',
+            url: contextPath + '/forAdmin',
             method: 'GET',
             params: {
                 p: page,
@@ -29,7 +29,19 @@ angular.module('market').controller('productsController', function ($scope, $htt
 
     $scope.deleteProduct = function (id) {
         $http.delete(contextPath + '/' + id).then(function (response) {
-            $scope.loadProducts();
+            $scope.loadProducts(1);
+        });
+    }
+
+    $scope.editVisibleProduct = function (id, flag) {
+        $http({
+            url: contextPath + '/editVisible/' + id,
+            method: 'POST',
+            params: {
+                visible: flag
+            }
+        }).then(function (response) {
+            $scope.loadProducts($scope.lastClickPage);
         });
     }
 

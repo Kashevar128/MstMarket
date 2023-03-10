@@ -3,14 +3,18 @@ package ru.vinogradov.mst.market.core.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.vinogradov.mst.market.api.ProductDto;
+import ru.vinogradov.mst.market.core.entities.Order;
 import ru.vinogradov.mst.market.core.exceptions.ResourceNotFoundException;
 import ru.vinogradov.mst.market.core.entities.Product;
 import ru.vinogradov.mst.market.core.exceptions.TheProductExistsExeption;
 import ru.vinogradov.mst.market.core.repositories.ProductRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,7 +24,8 @@ public class ProductService {
     private final CategoryService categoryService;
 
     public Page<Product> findAll(int page, int pageSize, Specification<Product> specification) {
-        return productRepository.findAll(specification, PageRequest.of(page, pageSize));
+        Sort sort = Sort.by("title");
+        return productRepository.findAll(specification, PageRequest.of(page, pageSize, sort));
     }
 
     public void deleteById(Long id) {
@@ -43,5 +48,11 @@ public class ProductService {
 
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
+    }
+
+    public void updateVisible(Long id, Boolean visible) {
+        Product byId = productRepository.getById(id);
+        byId.setVisible(visible);
+        productRepository.save(byId);
     }
 }
