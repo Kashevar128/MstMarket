@@ -93,9 +93,6 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                     $localStorage.mstMarketUser = {username: $scope.user.username, token: response.data.token};
 
-                    $scope.user.username = null;
-                    $scope.user.password = null;
-
                     alert('Привет ' + $localStorage.mstMarketUser.username + '!')
 
                     $location.path('/');

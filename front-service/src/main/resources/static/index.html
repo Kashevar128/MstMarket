@@ -60,6 +60,7 @@
                     <a class="nav-link" href="#!/registration">Регистрация</a>
                 </li>
                 <li class="nav-item" ng-show="isUserLoggedIn()" style="padding: 4px;">
+                    <span class="badge badge-success">{{user.username}}</span>
                     <button class="btn btn-outline-secondary btn-sm" ng-click="tryToLogout()">Выйти</button>
                 </li>
             </ul>

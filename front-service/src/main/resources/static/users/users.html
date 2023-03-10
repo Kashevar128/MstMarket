@@ -4,8 +4,7 @@
     <p></p>
     <form novalidate ng-submit="loadUsers()">
         <div class="form-floating input-group-sm">
-            <input style="width: 40%;" type="text" class="form-control" id="filterTitle" placeholder="" ng-model="filter.title_part">
-            <label for="filterTitle">Введите имя пользователя</label>
+            <input style="width: 40%;" type="text" class="form-control" id="filterTitle" placeholder="Введите имя пользователя" ng-model="filter.title_part">
         </div>
         <p></p>
         <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Найти</button>
@@ -20,7 +19,6 @@
         </thead>
         <tbody>
         <tr ng-repeat="user in usersPage.content">
-            <td>{{user.id}}</td>
             <td>{{user.username}}</td>
             <td>{{user.role}}</td>
             <td> <button class="btn btn-outline-danger btn-sm" ng-click="deleteUser(user.id)">Удалить пользователя</button><td>
