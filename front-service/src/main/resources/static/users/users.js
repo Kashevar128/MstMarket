@@ -1,7 +1,8 @@
-angular.module('market').controller('usersController', function ($scope, $http, $location, $rootScope) {
+angular.module('market').controller('usersController', function ($scope, $http, $location, $rootScope, $localStorage) {
     const contextPath = 'http://localhost:5555/auth/';
 
     $scope.loadUsers = function (page = 1) {
+        $scope.lastClick = page;
         $http({
             url: contextPath + 'listUsers',
             method: 'GET',
@@ -36,8 +37,24 @@ angular.module('market').controller('usersController', function ($scope, $http, 
             });
     }
 
+    $scope.banUser = function (id, flag) {
+        $http({
+            url: contextPath + 'banUser/' + id,
+            method: 'POST',
+            params: {
+                access: flag
+            }
+        }).then(function (response) {
+            $scope.loadUsers($scope.lastClick);
+        });
+    }
+
     $scope.back = function () {
         $location.path('/admin')
+    }
+
+    $scope.showUserManagement = function (name) {
+        return name === $localStorage.mstMarketUser.username;
     }
 
     $scope.loadUsers();

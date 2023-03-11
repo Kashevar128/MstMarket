@@ -116,7 +116,8 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
     };
 
     $scope.isVisibleAdmin = function () {
-        return $localStorage.visibleAdmin;
+        return true;
+        //return $localStorage.visibleAdmin;
     }
 
     $rootScope.isUserLoggedIn = function () {

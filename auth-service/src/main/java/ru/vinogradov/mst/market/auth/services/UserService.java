@@ -123,4 +123,11 @@ public class UserService implements UserDetailsService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    @Transactional
+    public void updateAccessUser(Long id, Boolean flag) {
+        User user = userRepository.getById(id);
+        user.setAccess(flag);
+        userRepository.save(user);
+    }
 }

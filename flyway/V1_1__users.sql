@@ -1,9 +1,10 @@
 create table users
 (
     id         bigserial primary key,
-    username   varchar(36) not null,
+    username   varchar(36) unique not null,
     password   varchar(80) not null,
-    email      varchar(50) unique,
+    email      varchar(50) unique not null,
+    access     boolean not null,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp
 );
@@ -29,12 +30,14 @@ insert into roles (name)
 values ('ROLE_USER'),
        ('ROLE_ADMIN');
 
-insert into users (username, password, email)
-values ('bob', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'bob_johnson@gmail.com'),
-       ('john', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'john_johnson@gmail.com'),
-       ('artur', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'artur_johnson@gmail.com');
+insert into users (username, password, email, access)
+values ('bob', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'bob_johnson@gmail.com', true),
+       ('john', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'john_johnson@gmail.com', true),
+       ('artur', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'artur_johnson@gmail.com', true),
+       ('ethan', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'ethan_johnson@gmail.com', true);
 
 insert into users_roles (user_id, role_id)
 values (1, 1),
        (2, 2),
-       (3, 1);
+       (3, 1),
+       (4, 2);

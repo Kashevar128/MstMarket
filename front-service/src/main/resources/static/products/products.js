@@ -35,7 +35,7 @@ angular.module('market').controller('productsController', function ($scope, $htt
 
     $scope.deleteProduct = function (id) {
         $http.delete(contextPath + '/' + id).then(function (response) {
-            $scope.loadProducts(1);
+            $scope.loadProducts();
         });
     }
 

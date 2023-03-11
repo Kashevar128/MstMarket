@@ -65,4 +65,10 @@ public class AuthController {
     @DeleteMapping("/deleteUser/{id}")
     public void deleteUser(@PathVariable Long id) {userService.deleteUser(id);}
 
+    @PostMapping("/banUser/{id}")
+    public void banUser(@PathVariable Long id, @RequestParam(name = "access") Boolean access) {
+        userService.updateAccessUser(id, access);
+    }
+
+
 }

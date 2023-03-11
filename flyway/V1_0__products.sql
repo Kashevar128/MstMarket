@@ -9,7 +9,7 @@ create table categories
 create table products
 (
     id              bigserial primary key,
-    title           varchar(255) not null ,
+    title           varchar(255) unique not null ,
     price           numeric(8, 2) not null,
     category_id     bigint references categories (id) not null,
     visible         boolean not null,

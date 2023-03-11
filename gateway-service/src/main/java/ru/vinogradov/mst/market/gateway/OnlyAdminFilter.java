@@ -12,10 +12,12 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @Component
-public class NotForUsersFilter extends AbstractGatewayFilterFactory<NotForUsersFilter.Config> {
-    private final String pathListProduct = "/market-core/api/v1/products/listProducts";
+public class OnlyAdminFilter extends AbstractGatewayFilterFactory<OnlyAdminFilter.Config> {
+    private final String pathListProduct = "/market-core/api/v1/products";
+    private final String pathListCategory = "/market-core/api/v1/categories";
+    private final String pathListUser = "/market-auth/listUsers";
 
-    public NotForUsersFilter() {
+    public OnlyAdminFilter() {
         super(Config.class);
     }
 
@@ -29,8 +31,18 @@ public class NotForUsersFilter extends AbstractGatewayFilterFactory<NotForUsersF
                 List<String> listRole = request.getHeaders().get("role");
                 assert listRole != null;
                 for (String role : listRole) {
-                    if (role.equals("[ROLE_USER]") && request.getURI().getPath().contains(pathListProduct)) {
-                        return this.onError(exchange, "Not for users", HttpStatus.UNAUTHORIZED);
+                    if (!role.equals("[ROLE_ADMIN]") && request.getURI().getPath().contains(pathListProduct + "/forAdmin")) {
+                        return this.onError(exchange, "You don't have rights", HttpStatus.UNAUTHORIZED);
+                    }
+                    if (!role.equals("[ROLE_ADMIN]") && request.getURI().getPath().contains(pathListUser)) {
+                        return this.onError(exchange, "You don't have rights", HttpStatus.UNAUTHORIZED);
+                    }
+                    if (!role.equals("[ROLE_ADMIN]") && request.getURI().getPath().contains(pathListProduct)
+                            && request.getMethodValue().equals("POST")) {
+                        return this.onError(exchange, "You don't have rights", HttpStatus.UNAUTHORIZED);
+                    }
+                    if (!role.equals("[ROLE_ADMIN]") && request.getURI().getPath().contains(pathListCategory)) {
+                        return this.onError(exchange, "You don't have rights", HttpStatus.UNAUTHORIZED);
                     }
                 }
             }
