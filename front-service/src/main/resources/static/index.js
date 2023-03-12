@@ -72,6 +72,7 @@
 
             if ($localStorage.mstMarketUser) {
                 $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.mstMarketUser.token;
+                $rootScope.username = $localStorage.mstMarketUser.username;
             }
         }
         if (!$localStorage.mstMarketGuestCartId) {
@@ -92,7 +93,8 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
                     $localStorage.visibleAdmin = response.data.visibleAdminButton;
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                     $localStorage.mstMarketUser = {username: $scope.user.username, token: response.data.token};
-
+                    $scope.user.username = '';
+                    $scope.user.password = '';
                     alert('Привет ' + $localStorage.mstMarketUser.username + '!')
 
                     $location.path('/');
