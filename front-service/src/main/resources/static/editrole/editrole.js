@@ -1,9 +1,9 @@
 angular.module('market').controller('roleController', function ($scope, $http, $rootScope, $location) {
-    const contextPath = 'http://localhost:5555/auth/';
+    const contextPath = 'http://localhost:5555/auth/forAdmin';
 
     $scope.editRole = function () {
         console.log($rootScope.edituser);
-        $http.post(contextPath + 'roleEdit', $rootScope.edituser).then(function succes (response) {
+        $http.post(contextPath + '/roleEdit', $rootScope.edituser).then(function succes (response) {
             if (response.data.value) {
                 alert(response.data.value);
                 $location.path('/users');

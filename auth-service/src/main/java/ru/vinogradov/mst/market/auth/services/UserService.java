@@ -21,14 +21,10 @@ import ru.vinogradov.mst.market.api.RegistrationUserDto;
 import ru.vinogradov.mst.market.api.UserDto;
 import ru.vinogradov.mst.market.auth.entities.Role;
 import ru.vinogradov.mst.market.auth.entities.User;
-import ru.vinogradov.mst.market.auth.exceptions.DontMatchPasswordsException;
-import ru.vinogradov.mst.market.auth.exceptions.IncorrectLoginOrPasswordException;
-import ru.vinogradov.mst.market.auth.exceptions.IncorrectRoleUserException;
-import ru.vinogradov.mst.market.auth.exceptions.TheUserAlreadyExistsException;
+import ru.vinogradov.mst.market.auth.exceptions.*;
 import ru.vinogradov.mst.market.auth.repositories.UserRepository;
 import ru.vinogradov.mst.market.auth.utils.JwtTokenUtil;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -129,5 +125,10 @@ public class UserService implements UserDetailsService {
         User user = userRepository.getById(id);
         user.setAccess(flag);
         userRepository.save(user);
+    }
+
+    public void userFilter(String name) {
+        User user = userRepository.findByUsername(name).orElseThrow(()-> new ResourceNotFoundException("Пользователь не найден"));
+        if (!user.getAccess()) throw new BanUserException("Вам запрещен доступ");
     }
 }

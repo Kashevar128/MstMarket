@@ -61,7 +61,6 @@
                 let jwt = $localStorage.mstMarketUser.token;
                 let payload = JSON.parse(atob(jwt.split('.')[1]));
                 let currentTime = parseInt(new Date().getTime() / 1000);
-                $localStorage.visibleAdmin = true;
                 if (currentTime > payload.exp) {
                     console.log("Token is expired!!!");
                     delete $localStorage.marchMarketUser;
@@ -93,6 +92,7 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
                     $localStorage.visibleAdmin = response.data.visibleAdminButton;
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                     $localStorage.mstMarketUser = {username: $scope.user.username, token: response.data.token};
+                    $rootScope.username = $scope.user.username;
                     $scope.user.username = '';
                     $scope.user.password = '';
                     alert('Привет ' + $localStorage.mstMarketUser.username + '!')
@@ -118,8 +118,7 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
     };
 
     $scope.isVisibleAdmin = function () {
-        return true;
-        //return $localStorage.visibleAdmin;
+        return $localStorage.visibleAdmin;
     }
 
     $rootScope.isUserLoggedIn = function () {

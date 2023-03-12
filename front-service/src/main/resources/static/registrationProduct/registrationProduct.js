@@ -2,7 +2,7 @@ angular.module('market').controller('registrationProductController', function ($
     const contextPath = 'http://localhost:5555/core/api/v1';
 
     $scope.functionRegistrationProduct = function () {
-        $http.post(contextPath + '/products', $scope.regproduct).then(function success (response) {
+        $http.post(contextPath + '/products/forAdmin/create', $scope.regproduct).then(function success (response) {
             alert(response.data.value);
             $location.path('/products');
         }, function error (response) {

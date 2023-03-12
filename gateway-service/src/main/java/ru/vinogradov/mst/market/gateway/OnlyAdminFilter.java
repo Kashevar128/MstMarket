@@ -13,9 +13,7 @@ import java.util.List;
 
 @Component
 public class OnlyAdminFilter extends AbstractGatewayFilterFactory<OnlyAdminFilter.Config> {
-    private final String pathListProduct = "/market-core/api/v1/products";
-    private final String pathListCategory = "/market-core/api/v1/categories";
-    private final String pathListUser = "/market-auth/listUsers";
+    private final String pathContext = "/forAdmin";
 
     public OnlyAdminFilter() {
         super(Config.class);
@@ -27,21 +25,18 @@ public class OnlyAdminFilter extends AbstractGatewayFilterFactory<OnlyAdminFilte
             ServerHttpRequest request = exchange.getRequest();
             System.out.println(request.getHeaders());
             System.out.println(request.getURI().getPath());
+            List<String> listRole;
+
+            if (!request.getHeaders().containsKey("role") &&
+                    request.getURI().getPath().contains(pathContext)) {
+                return this.onError(exchange, "You don't have rights", HttpStatus.UNAUTHORIZED);
+            }
+
             if (request.getHeaders().containsKey("role")) {
-                List<String> listRole = request.getHeaders().get("role");
+                listRole = request.getHeaders().get("role");
                 assert listRole != null;
                 for (String role : listRole) {
-                    if (!role.equals("[ROLE_ADMIN]") && request.getURI().getPath().contains(pathListProduct + "/forAdmin")) {
-                        return this.onError(exchange, "You don't have rights", HttpStatus.UNAUTHORIZED);
-                    }
-                    if (!role.equals("[ROLE_ADMIN]") && request.getURI().getPath().contains(pathListUser)) {
-                        return this.onError(exchange, "You don't have rights", HttpStatus.UNAUTHORIZED);
-                    }
-                    if (!role.equals("[ROLE_ADMIN]") && request.getURI().getPath().contains(pathListProduct)
-                            && request.getMethodValue().equals("POST")) {
-                        return this.onError(exchange, "You don't have rights", HttpStatus.UNAUTHORIZED);
-                    }
-                    if (!role.equals("[ROLE_ADMIN]") && request.getURI().getPath().contains(pathListCategory)) {
+                    if (!role.equals("[ROLE_ADMIN]") && request.getURI().getPath().contains(pathContext)) {
                         return this.onError(exchange, "You don't have rights", HttpStatus.UNAUTHORIZED);
                     }
                 }

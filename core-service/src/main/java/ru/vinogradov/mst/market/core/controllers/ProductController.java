@@ -70,7 +70,7 @@ public class ProductController {
         return categoryService.getAllCategories();
     }
 
-    @GetMapping("/forAdmin")
+    @GetMapping("/forAdmin/getProduct")
     public Page<ProductDto> getProductForAdmin(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "page_size", defaultValue = "5") Integer pageSize,
@@ -112,7 +112,7 @@ public class ProductController {
                     )
             }
     )
-    @PostMapping
+    @PostMapping("/forAdmin/create")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> createNewProducts(@RequestBody ProductDto productDto) {
         productService.createNewProduct(productDto);
@@ -120,7 +120,7 @@ public class ProductController {
         return ResponseEntity.ok(stringResponse);
     }
 
-    @PostMapping("/updateProduct")
+    @PostMapping("/forAdmin/updateProduct")
     public ResponseEntity<?> updateDataProduct(@RequestBody ProductDto productDto) {
         productService.updateProduct(productDto);
         StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно обновлен", productDto.getTitle()));
@@ -132,7 +132,7 @@ public class ProductController {
         productService.deleteById(id);
     }
 
-    @PostMapping("editVisible/{id}")
+    @PostMapping("/forAdmin/editVisible/{id}")
     public void updateVisibleProduct(@PathVariable Long id, @RequestParam(name = "visible") Boolean visible) {
         productService.updateVisible(id, visible);
     }

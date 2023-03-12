@@ -1,10 +1,10 @@
 angular.module('market').controller('usersController', function ($scope, $http, $location, $rootScope, $localStorage) {
-    const contextPath = 'http://localhost:5555/auth/';
+    const contextPath = 'http://localhost:5555/auth/forAdmin';
 
     $scope.loadUsers = function (page = 1) {
         $scope.lastClick = page;
         $http({
-            url: contextPath + 'listUsers',
+            url: contextPath + '/listUsers',
             method: 'GET',
             params: {
                 p: page,
@@ -30,16 +30,16 @@ angular.module('market').controller('usersController', function ($scope, $http, 
         $location.path('/editrole')
     }
 
-    $scope.deleteUser = function (id) {
-        $http.delete(contextPath + 'deleteUser/' + id)
-            .then(function (response) {
-                $scope.loadUsers();
-            });
-    }
+    // $scope.deleteUser = function (id) {
+    //     $http.delete(contextPath + 'deleteUser/' + id)
+    //         .then(function (response) {
+    //             $scope.loadUsers();
+    //         });
+    // }
 
     $scope.banUser = function (id, flag) {
         $http({
-            url: contextPath + 'banUser/' + id,
+            url: contextPath + '/banUser/' + id,
             method: 'POST',
             params: {
                 access: flag

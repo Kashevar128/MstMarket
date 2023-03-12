@@ -26,6 +26,7 @@ public class AuthController {
                 .token(userService.getToken(userDetails))
                 .visibleAdminButton(userService.getAccessAdmin(authRequest.getUsername()))
                 .build();
+        userService.userFilter(authRequest.getUsername());
         return ResponseEntity.ok(jwtResponse);
     }
 
@@ -39,7 +40,7 @@ public class AuthController {
         return ResponseEntity.ok(jwtResponse);
     }
 
-    @GetMapping("/listUsers")
+    @GetMapping("/forAdmin/listUsers")
     public Page<UserDto> getAllUsers(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "page_size", defaultValue = "5") Integer pageSize,
@@ -55,7 +56,7 @@ public class AuthController {
         return userService.findAll(page - 1, pageSize, spec).map(userMapper::mapUserToUserDto);
     }
 
-    @PostMapping("/roleEdit")
+    @PostMapping("/forAdmin/roleEdit")
     public ResponseEntity<?> roleEdit(@RequestBody UserDto userDto) {
         userService.roleEdit(userDto);
         StringResponse stringResponse = new StringResponse("Права пользователя изменены");
@@ -65,7 +66,7 @@ public class AuthController {
     @DeleteMapping("/deleteUser/{id}")
     public void deleteUser(@PathVariable Long id) {userService.deleteUser(id);}
 
-    @PostMapping("/banUser/{id}")
+    @PostMapping("/forAdmin/banUser/{id}")
     public void banUser(@PathVariable Long id, @RequestParam(name = "access") Boolean access) {
         userService.updateAccessUser(id, access);
     }
