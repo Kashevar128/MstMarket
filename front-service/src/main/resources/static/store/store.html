@@ -4,18 +4,15 @@
     <p></p>
     <form novalidate ng-submit="loadProducts()">
         <div class="form-floating input-group-sm">
-            <input style="width: 40%;" type="text" class="form-control" id="filterTitle" placeholder="" ng-model="filter.title_part">
-            <label for="filterTitle">Название продукта</label>
+            <input style="width: 40%;" type="text" class="form-control" id="filterTitle" placeholder="Название продукта" ng-model="filter.title_part">
         </div>
         <p></p>
         <div class="form-floating input-group-sm">
-            <input style="width: 40%;" type="number" class="form-control" id="filterMinPrice" placeholder="" ng-model="filter.min_price">
-            <label for="filterMinPrice">Мин. цена</label>
+            <input style="width: 40%;" type="number" class="form-control" id="filterMinPrice" placeholder="Мин. цена" ng-model="filter.min_price">
         </div>
         <p></p>
         <div class="form-floating input-group-sm">
-            <input style="width: 40%;" type="number" class="form-control" id="filterMaxPrice" placeholder="" ng-model="filter.max_price">
-            <label for="filterMaxPrice">Макс. цена</label>
+            <input style="width: 40%;" type="number" class="form-control" id="filterMaxPrice" placeholder="Макс. цена" ng-model="filter.max_price">
         </div>
         <p></p>
         <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Применить</button>
@@ -26,12 +23,14 @@
         <tr>
             <th>Название</th>
             <th>Цена</th>
+            <th>Категория товара</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="p in productsPage.content">
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
+            <td>{{p.categoryTitle}}</td>
             <td>
                 <button class="btn btn-primary" ng-click="addToCart(p.id)" ng-show="suchAProductAlreadyExists(p.id)">Добавить в корзину</button>
                 <button class="btn btn-secondary" ng-click="addToCart(p.id)" ng-show="!suchAProductAlreadyExists(p.id)">Добавить в корзину</button>

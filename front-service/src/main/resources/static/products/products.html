@@ -16,12 +16,14 @@
         <tr>
             <th>Название</th>
             <th>Цена</th>
+            <th>Категория товара</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="p in productsPage.content">
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
+            <td>{{p.categoryTitle}}</td>
             <td>
             <button class="btn btn-outline-danger btn-sm" ng-click="editVisibleProduct(p.id, false)" ng-show="p.visible">Убрать из магазина</button>
             <button class="btn btn-outline-primary btn-sm" ng-click="editVisibleProduct(p.id, true)" ng-show="!p.visible">Вернуть в магазин</button>
