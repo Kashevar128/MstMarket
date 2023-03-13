@@ -9,14 +9,14 @@ import ru.vinogradov.mst.market.auth.services.RoleService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/forAdmin/roles")
+@RequestMapping("/api/v1/roles/forAdmin")
 @RequiredArgsConstructor
 public class RoleController {
 
     private final RoleService roleService;
 
     @GetMapping
-    public List<String> getAllCategory() {
+    public List<String> getAllRolesUser() {
         return roleService.getAllRolesStr();
     }
 }

@@ -4,7 +4,7 @@
     <p></p>
     <form novalidate ng-submit="functionRegistration()">
         <div class="form-floating input-group-sm">
-            <input style="width: 40%;" type="text" class="form-control" id="userUsername" placeholder="Имя пользователя" ng-model="reguser.username">
+            <input style="width: 40%;" type="text" disabled="true" class="form-control" id="userUsername" placeholder="Имя пользователя" ng-model="upUser.username">
         </div>
         <p></p>
         <div class="form-floating input-group-sm">
@@ -16,9 +16,10 @@
         </div>
         <p></p>
         <div class="form-floating input-group-sm">
-            <input style="width: 40%;" type="password" class="form-control" id="userConfirmPass" placeholder="Подтверждение пароля" ng-model="reguser.confirmPassword">
+            <input style="width: 40%;" type="password" required class="form-control" id="userOldPass" placeholder="Текущий пароль" ng-model="reguser.confirmPassword">
+            <label for="userOldPass">Для отправки формы введите ваш текущий пароль</label>
         </div>
         <p></p>
-        <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Зарегистрироваться</button>
+        <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Править данные</button>
     </form>
 </div>

@@ -61,6 +61,7 @@
                 </li>
                 <li class="nav-item" ng-show="isUserLoggedIn()" style="padding: 4px;">
                     <span class="badge badge-success">{{username}}</span>
+                    <button class="btn btn-outline-secondary btn-sm" ng-click="logInToYourPersonalAccount()">Личный кабинет</button>
                     <button class="btn btn-outline-secondary btn-sm" ng-click="tryToLogout()">Выйти</button>
                 </li>
             </ul>
@@ -81,6 +82,7 @@
     <script src="editrole/editrole.js"></script>
     <script src="registrationProduct/registrationProduct.js"></script>
     <script src="updateProduct/updateProduct.js"></script>
+    <script src="personalAccount/personalAccount.js"></script>
 </div>
 </body>
 </html>

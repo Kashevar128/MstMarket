@@ -34,10 +34,14 @@ insert into users (username, password, email, access)
 values ('bob', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'bob_johnson@gmail.com', true),
        ('john', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'john_johnson@gmail.com', true),
        ('artur', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'artur_johnson@gmail.com', true),
-       ('ethan', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'ethan_johnson@gmail.com', true);
+       ('ethan', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'ethan_johnson@gmail.com', true),
+       ('max', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'max_johnson@gmail.com', true),
+       ('morgan', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'morgon_johnson@gmail.com', true);
 
 insert into users_roles (user_id, role_id)
 values (1, 1),
        (2, 2),
        (3, 1),
-       (4, 2);
+       (4, 2),
+       (5, 1),
+       (6, 1);

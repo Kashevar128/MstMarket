@@ -1,9 +1,10 @@
 angular.module('market').controller('roleController', function ($scope, $http, $rootScope, $location, $localStorage) {
-    const contextPath = 'http://localhost:5555/auth/forAdmin';
+    const contextPathUsers = 'http://localhost:5555/auth/api/v1/users/forAdmin';
+    const contextPathRoles = 'http://localhost:5555/auth/api/v1/roles/forAdmin';
 
     $scope.editRole = function () {
         console.log($rootScope.edituser);
-        $http.post(contextPath + '/roleEdit', $rootScope.edituser).then(function succes (response) {
+        $http.post(contextPathUsers + '/roleEdit', $rootScope.edituser).then(function succes (response) {
             if (response.data.value) {
                 alert(response.data.value);
                 $location.path('/users');
@@ -20,7 +21,7 @@ angular.module('market').controller('roleController', function ($scope, $http, $
     }
 
     $scope.getRoles = function () {
-        $http.get(contextPath + '/roles').then(function success (response) {
+        $http.get(contextPathRoles).then(function success (response) {
             $rootScope.edituser = $localStorage.lastEditUser;
             $scope.roleList = response.data
         });

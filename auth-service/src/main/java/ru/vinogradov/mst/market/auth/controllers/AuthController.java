@@ -40,36 +40,5 @@ public class AuthController {
         return ResponseEntity.ok(jwtResponse);
     }
 
-    @GetMapping("/forAdmin/listUsers")
-    public Page<UserDto> getAllUsers(
-            @RequestParam(name = "p", defaultValue = "1") Integer page,
-            @RequestParam(name = "page_size", defaultValue = "5") Integer pageSize,
-            @RequestParam(name = "title_part", required = false) String titlePart
-    ) {
-        if (page < 1) {
-            page = 1;
-        }
-        Specification<User> spec = Specification.where(null);
-        if (titlePart != null) {
-            spec = spec.and(UsersSpecifications.titleLike(titlePart));
-        }
-        return userService.findAll(page - 1, pageSize, spec).map(userMapper::mapUserToUserDto);
-    }
-
-    @PostMapping("/forAdmin/roleEdit")
-    public ResponseEntity<?> roleEdit(@RequestBody UserDto userDto) {
-        userService.roleEdit(userDto);
-        StringResponse stringResponse = new StringResponse("Права пользователя изменены");
-        return ResponseEntity.ok(stringResponse);
-    }
-
-    @DeleteMapping("/deleteUser/{id}")
-    public void deleteUser(@PathVariable Long id) {userService.deleteUser(id);}
-
-    @PostMapping("/forAdmin/banUser/{id}")
-    public void banUser(@PathVariable Long id, @RequestParam(name = "access") Boolean access) {
-        userService.updateAccessUser(id, access);
-    }
-
 
 }

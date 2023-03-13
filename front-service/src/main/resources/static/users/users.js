@@ -1,5 +1,5 @@
 angular.module('market').controller('usersController', function ($scope, $http, $location, $rootScope, $localStorage) {
-    const contextPath = 'http://localhost:5555/auth/forAdmin';
+    const contextPath = 'http://localhost:5555/auth/api/v1/users/forAdmin';
 
     $scope.loadUsers = function (page = 1) {
         $scope.lastClick = page;
@@ -30,13 +30,6 @@ angular.module('market').controller('usersController', function ($scope, $http, 
         console.log($rootScope.edituser);
         $location.path('/editrole')
     }
-
-    // $scope.deleteUser = function (id) {
-    //     $http.delete(contextPath + 'deleteUser/' + id)
-    //         .then(function (response) {
-    //             $scope.loadUsers();
-    //         });
-    // }
 
     $scope.banUser = function (id, flag) {
         $http({

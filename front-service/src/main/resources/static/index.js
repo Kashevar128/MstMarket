@@ -50,6 +50,10 @@
                 templateUrl: 'updateProduct/updateProduct.html',
                 controller: 'updateProductController'
             })
+            .when('/personalAccount', {
+                templateUrl: 'personalAccount/personalAccount.html',
+                controller: 'personalAccountController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -119,6 +123,10 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
 
     $scope.isVisibleAdmin = function () {
         return $localStorage.visibleAdmin;
+    }
+
+    $scope.logInToYourPersonalAccount = function () {
+        $location.path('/personalAccount');
     }
 
     $rootScope.isUserLoggedIn = function () {
