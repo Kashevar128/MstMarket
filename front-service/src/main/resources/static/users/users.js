@@ -26,6 +26,7 @@ angular.module('market').controller('usersController', function ($scope, $http, 
 
     $scope.editRole = function (id, username) {
         $rootScope.edituser = {id: id, username: username, role: null}
+        $localStorage.lastEditUser = $rootScope.edituser;
         console.log($rootScope.edituser);
         $location.path('/editrole')
     }

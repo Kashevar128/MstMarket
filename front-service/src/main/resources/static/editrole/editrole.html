@@ -2,12 +2,13 @@
     <p></p>
     <h3>Управление доступом</h3>
     <p></p>
-    <h5>Доступные роли: ROLE_USER, ROLE_ADMIN</h5>
+    <h5>{{edituser.username}}</h5>
     <p></p>
     <form novalidate ng-submit="editRole()">
         <div class="form-floating input-group-sm">
-            <input style="width: 40%;" type="text" class="form-control" id="userUserRole" placeholder="ROLE_..." ng-model="edituser.role">
-            <label for="userUserRole">Роль пользователя</label>
+            <select style="width: 40%;" class="form-control" ng-model="edituser.role" ng-options="u for u in roleList">
+                <option value="">ROLE_...</option>
+            </select>
         </div>
         <p></p>
         <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Назначить права</button>

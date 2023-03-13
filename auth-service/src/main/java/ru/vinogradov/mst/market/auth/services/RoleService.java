@@ -6,6 +6,7 @@ import ru.vinogradov.mst.market.auth.entities.Role;
 import ru.vinogradov.mst.market.auth.repositories.RoleRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,5 +19,9 @@ public class RoleService {
 
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
+    }
+
+    public List<String> getAllRolesStr() {
+        return roleRepository.findAll().stream().map(Role::getName).toList();
     }
 }

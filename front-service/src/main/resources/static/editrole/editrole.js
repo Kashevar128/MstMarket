@@ -1,4 +1,4 @@
-angular.module('market').controller('roleController', function ($scope, $http, $rootScope, $location) {
+angular.module('market').controller('roleController', function ($scope, $http, $rootScope, $location, $localStorage) {
     const contextPath = 'http://localhost:5555/auth/forAdmin';
 
     $scope.editRole = function () {
@@ -18,4 +18,13 @@ angular.module('market').controller('roleController', function ($scope, $http, $
     $scope.back = function () {
         $location.path('/users')
     }
+
+    $scope.getRoles = function () {
+        $http.get(contextPath + '/roles').then(function success (response) {
+            $rootScope.edituser = $localStorage.lastEditUser;
+            $scope.roleList = response.data
+        });
+    }
+
+    $scope.getRoles();
 });
