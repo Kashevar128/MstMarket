@@ -15,6 +15,12 @@
             <input style="width: 40%;" type="number" class="form-control" id="filterMaxPrice" placeholder="Макс. цена" ng-model="filter.max_price">
         </div>
         <p></p>
+        <div class="form-floating input-group-sm">
+            <select style="width: 40%;" class="form-control" ng-model="filter.category_title" ng-options="t for t in categoryList">
+                <option value="">Категория продукта</option>
+            </select>
+        </div>
+        <p></p>
         <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Применить</button>
     </form>
     <p></p>

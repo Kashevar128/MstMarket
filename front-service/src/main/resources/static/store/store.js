@@ -8,7 +8,8 @@ angular.module('market').controller('storeController', function ($scope, $http, 
                 p: page,
                 title_part: $scope.filter ? $scope.filter.title_part : null,
                 min_price: $scope.filter ? $scope.filter.min_price : null,
-                max_price: $scope.filter ? $scope.filter.max_price : null
+                max_price: $scope.filter ? $scope.filter.max_price : null,
+                category_title: $scope.filter ? $scope.filter.category_title : null
             }
         }).then(function (response) {
             $scope.productsPage = response.data;
@@ -52,7 +53,13 @@ angular.module('market').controller('storeController', function ($scope, $http, 
                 $rootScope.currentCartUser = response.data;
             });
     };
+    $scope.getCategories = function () {
+        $http.get('http://localhost:5555/core/api/v1/categories').then(function success (response) {
+            $scope.categoryList = response.data
+        });
+    }
 
     $scope.loadCart();
     $scope.loadProducts();
+    $scope.getCategories();
 });

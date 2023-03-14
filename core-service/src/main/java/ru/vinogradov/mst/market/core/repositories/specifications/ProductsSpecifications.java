@@ -21,6 +21,11 @@ public class ProductsSpecifications {
                 criteriaBuilder.like(root.get("title"), String.format("%%%s%%", titlePart));
     }
 
+    public static Specification<Product> titleCategoryLike(String titleCategory) {
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.like(root.get("category").get("title"), titleCategory);
+    }
+
     public static Specification<Product> visibleLike() {
         return (root, criteriaQuery, criteriaBuilder) ->
                 criteriaBuilder.isTrue(root.get("visible"));
