@@ -22,6 +22,7 @@ import ru.vinogradov.mst.market.api.UserDto;
 import ru.vinogradov.mst.market.auth.entities.Role;
 import ru.vinogradov.mst.market.auth.entities.User;
 import ru.vinogradov.mst.market.auth.exceptions.*;
+import ru.vinogradov.mst.market.auth.mappers.UserMapper;
 import ru.vinogradov.mst.market.auth.repositories.UserRepository;
 import ru.vinogradov.mst.market.auth.utils.JwtTokenUtil;
 
@@ -38,6 +39,7 @@ public class UserService implements UserDetailsService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -68,6 +70,10 @@ public class UserService implements UserDetailsService {
     }
 
     public void reg(RegistrationUserDto registrationUserDto) {
+        if (registrationUserDto.getUsername() == null || registrationUserDto.getPassword() == null
+                || registrationUserDto.getConfirmPassword() == null || registrationUserDto.getEmail() == null) {
+            throw new FieldsNotNullException("Все поля формы должны быть заполнены");
+        }
         if (!registrationUserDto.getPassword().equals(registrationUserDto.getConfirmPassword())) {
             throw new DontMatchPasswordsException("Пароли не совпадают");
         }
@@ -128,8 +134,32 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    public User getByName(String name) {
+        return userRepository.findByUsername(name).orElseThrow(
+                () -> new ResourceNotFoundException("Пользователь не найден"));
+    }
+
     public void userFilter(String name) {
-        User user = userRepository.findByUsername(name).orElseThrow(()-> new ResourceNotFoundException("Пользователь не найден"));
+        User user = getByName(name);
         if (!user.getAccess()) throw new BanUserException("Вам запрещен доступ");
+    }
+
+    public String getUserEmailByName(String name) {
+        User user = getByName(name);
+        return user.getEmail();
+    }
+
+    @Transactional
+    public void updateUser(RegistrationUserDto registrationUserDto) {
+        JwtRequest jwtRequest = userMapper.mapRegistrationUserDtoToJwtRequest(registrationUserDto);
+        auth(jwtRequest);
+        User user = getByName(jwtRequest.getUsername());
+        if (registrationUserDto.getEmail() != null) {
+            user.setEmail(registrationUserDto.getEmail());
+        }
+        if (registrationUserDto.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(registrationUserDto.getPassword()));
+        }
+        userRepository.save(user);
     }
 }

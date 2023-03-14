@@ -33,12 +33,6 @@ angular.module('market').controller('productsController', function ($scope, $htt
         $location.path('/updateProduct');
     }
 
-    // $scope.deleteProduct = function (id) {
-    //     $http.delete(contextPath + '/' + id).then(function (response) {
-    //         $scope.loadProducts();
-    //     });
-    // }
-
     $scope.editVisibleProduct = function (id, flag) {
         $http({
             url: contextPath + '/editVisible/' + id,

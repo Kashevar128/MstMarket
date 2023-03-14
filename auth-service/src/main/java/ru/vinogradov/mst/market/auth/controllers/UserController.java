@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.vinogradov.mst.market.api.RegistrationUserDto;
 import ru.vinogradov.mst.market.api.StringResponse;
 import ru.vinogradov.mst.market.api.UserDto;
 import ru.vinogradov.mst.market.auth.entities.User;
@@ -45,5 +46,19 @@ public class UserController {
     @PostMapping("/forAdmin/banUser/{id}")
     public void banUser(@PathVariable Long id, @RequestParam(name = "access") Boolean access) {
         userService.updateAccessUser(id, access);
+    }
+
+    @GetMapping("/email/{username}")
+    public ResponseEntity<?> getEmailUser(@PathVariable String username) {
+        StringResponse stringResponse = new StringResponse(userService.getUserEmailByName(username));
+        return ResponseEntity.ok(stringResponse);
+    }
+
+    @PostMapping("/updateUser")
+    public ResponseEntity<?> updateDataUser(@RequestBody RegistrationUserDto registrationUserDto) {
+        userService.updateUser(registrationUserDto);
+        StringResponse stringResponse = new StringResponse(String
+                .format("Данные пользователя %s успешно обновлены", registrationUserDto.getUsername()));
+        return ResponseEntity.ok(stringResponse);
     }
 }

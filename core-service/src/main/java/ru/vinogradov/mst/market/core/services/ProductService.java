@@ -9,11 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vinogradov.mst.market.api.ProductDto;
 import ru.vinogradov.mst.market.core.entities.Category;
-import ru.vinogradov.mst.market.core.entities.Order;
+import ru.vinogradov.mst.market.core.exceptions.FieldsNotNullException;
 import ru.vinogradov.mst.market.core.exceptions.ResourceNotFoundException;
 import ru.vinogradov.mst.market.core.entities.Product;
-import ru.vinogradov.mst.market.core.exceptions.TheProductExistsExeption;
+import ru.vinogradov.mst.market.core.exceptions.TheProductExistsException;
 import ru.vinogradov.mst.market.core.repositories.ProductRepository;
+
 import java.util.Optional;
 
 @Service
@@ -32,18 +33,27 @@ public class ProductService {
     }
 
     @Transactional
-    public Product updateProduct(ProductDto productDto) {
+    public void updateProduct(ProductDto productDto) {
         Product product = productRepository.getById(productDto.getId());
-        product.setTitle(productDto.getTitle());
-        product.setPrice(productDto.getPrice());
-        Category category = categoryService.findByTitle(productDto.getCategoryTitle())
-                .orElseThrow(() -> new ResourceNotFoundException("Категория не найдена"));
-        product.setCategory(category);
+        if (productDto.getTitle() != null) {
+            product.setTitle(productDto.getTitle());
+        }
+        if (productDto.getPrice() != null) {
+            product.setPrice(productDto.getPrice());
+        }
+        if (productDto.getCategoryTitle() != null) {
+            Category category = categoryService.findByTitle(productDto.getCategoryTitle())
+                    .orElseThrow(() -> new ResourceNotFoundException("Категория не найдена"));
+            product.setCategory(category);
+        }
         productRepository.save(product);
-        return product;
     }
 
     public Product createNewProduct(ProductDto productDto) {
+        if (productDto.getTitle() == null || productDto.getCategoryTitle() == null
+                || productDto.getPrice() == null) {
+            throw new FieldsNotNullException("Все поля формы должны быть заполнены");
+        }
         Product product = new Product();
         product.setTitle(productDto.getTitle());
         product.setPrice(productDto.getPrice());
@@ -52,7 +62,7 @@ public class ProductService {
                 () -> new ResourceNotFoundException("Категория с названием: " +
                         productDto.getCategoryTitle() + " не найдена")));
         if (productRepository.existsByTitle(productDto.getTitle())) {
-            throw new TheProductExistsExeption("Такой продукт уже существует");
+            throw new TheProductExistsException("Такой продукт уже существует");
         }
         productRepository.save(product);
         return product;

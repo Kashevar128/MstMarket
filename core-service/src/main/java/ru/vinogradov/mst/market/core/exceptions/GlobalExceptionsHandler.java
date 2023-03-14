@@ -18,7 +18,12 @@ public class GlobalExceptionsHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<AppError> handleTheProductExistsException(TheProductExistsExeption e) {
+    public ResponseEntity<AppError> handleTheProductExistsException(TheProductExistsException e) {
+        return new ResponseEntity<>(new AppError("ILLEGAL_DATA_STATE", e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<AppError> handleFieldsNotFoundException(FieldsNotNullException e) {
         return new ResponseEntity<>(new AppError("ILLEGAL_DATA_STATE", e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }
